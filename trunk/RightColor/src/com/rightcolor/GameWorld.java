@@ -7,6 +7,7 @@ import java.util.Random;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.rightcolor.comunication.ISocialNetworkAPI;
+import com.rightcolor.gameobjects.ColorButton;
 
 public class GameWorld {
     
@@ -31,7 +32,10 @@ public class GameWorld {
 
 	private Preferences preferences;
 
-    private ClickableZone clickableBtn = new ClickableZone();
+    private ClickableZone topLeft = new ColorButton();
+    private ClickableZone topRight = new ColorButton();
+    private ClickableZone bottomLeft = new ColorButton();
+    private ClickableZone bottomRight = new ColorButton();
     
     private ISocialNetworkAPI facebook;
     private ISocialNetworkAPI twitter;
@@ -41,10 +45,11 @@ public class GameWorld {
     	this.facebook = facebook;
     	this.twitter = twitter;
     	
-        initialisePreferences();
+//        initialisePreferences();
         
         reset();
-        currentState = GameState.START;
+//        currentState = GameState.START;
+        currentState = GameState.RUNNING;
     }
     
     private void initialisePreferences() {
@@ -63,6 +68,7 @@ public class GameWorld {
     }
     
     public void reset() {
+        
     }
 
     public void update(float delta) {
@@ -84,8 +90,6 @@ public class GameWorld {
 	    switch (currentState) {
 	    
 	    case START:
-            if (clickableBtn.isInside(x, y)) {
-            }
             break;
             
 	    case MENU:
@@ -95,12 +99,33 @@ public class GameWorld {
             break;
             
 	    case RUNNING:
+            if (topLeft.isInside(x, y)) {
+                
+            } else if (topRight.isInside(x, y)) {
+                
+            } else if (bottomLeft.isInside(x, y)) {
+                
+            } else if (bottomRight.isInside(x, y)) {
+                
+            }
             break;
 	    }
     }
     
-    public void updateButton(int x, int y, int width, int height) {
-        clickableBtn.update(x, y, width, height);
+    public void updateTopLeft(int x, int y, int width, int height) {
+        topLeft.update(x, y, width, height);
+    }
+    
+    public void updateTopRight(int x, int y, int width, int height) {
+        topRight.update(x, y, width, height);
+    }
+    
+    public void updateBottomLeft(int x, int y, int width, int height) {
+        bottomLeft.update(x, y, width, height);
+    }
+    
+    public void updateBottomRight(int x, int y, int width, int height) {
+        bottomRight.update(x, y, width, height);
     }
 
     public GameState getCurrentState() {

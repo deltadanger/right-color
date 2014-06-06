@@ -1,7 +1,7 @@
 package helper;
 
 import com.badlogic.gdx.InputProcessor;
-import com.viruswar.GameWorld;
+import com.rightcolor.GameWorld;
 
 public class InputHandler implements InputProcessor {
     private GameWorld world;

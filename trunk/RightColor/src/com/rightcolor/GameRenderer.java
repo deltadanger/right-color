@@ -1,4 +1,4 @@
-package com.{templatelc};
+package com.rightcolor;
 
 import helper.AssetLoader;
 import helper.Utils;
@@ -36,9 +36,16 @@ public class GameRenderer {
         batcher.enableBlending();
 
         switch (world.getCurrentState()) {
+            case RUNNING:
+                renderRunning();
+                break;
         }
         
         batcher.end();
+    }
+    
+    private void renderRunning() {
+        
     }
     
     // Render examples:

@@ -26,7 +26,6 @@ public class AssetLoader {
         texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 
         background = new TextureRegion(texture, 0, 0, 1, 1);
-        background.flip(false, true);
         
         
         // Fonts
