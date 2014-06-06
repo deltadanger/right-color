@@ -6,8 +6,11 @@ import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.graphics.Color;
 import com.rightcolor.comunication.ISocialNetworkAPI;
 import com.rightcolor.gameobjects.ColorButton;
+import com.rightcolor.rules.RuleClassic;
+import com.rightcolor.rules.RuleSet;
 
 public class GameWorld {
     
@@ -31,11 +34,13 @@ public class GameWorld {
     private GameState currentState;
 
 	private Preferences preferences;
-
-    private ClickableZone topLeft = new ColorButton();
-    private ClickableZone topRight = new ColorButton();
-    private ClickableZone bottomLeft = new ColorButton();
-    private ClickableZone bottomRight = new ColorButton();
+	
+	private Color targetColor;
+    private ColorButton topLeft = new ColorButton();
+    private ColorButton topRight = new ColorButton();
+    private ColorButton bottomLeft = new ColorButton();
+    private ColorButton bottomRight = new ColorButton();
+    private RuleSet currentRule;
     
     private ISocialNetworkAPI facebook;
     private ISocialNetworkAPI twitter;
@@ -68,7 +73,13 @@ public class GameWorld {
     }
     
     public void reset() {
-        
+        currentRule = new RuleClassic();
+        initialiseNewRound();
+    }
+    
+    private void initialiseNewRound() {
+        targetColor = currentRule.getNewTargetColor();
+        currentRule.assignColorToButtons(topLeft, topRight, bottomLeft, bottomRight);
     }
 
     public void update(float delta) {
@@ -83,9 +94,6 @@ public class GameWorld {
         // elements.update(delta);
     }
 
-    /**
-     * To be called from InputHandler
-     */
 	public void onClick(int x, int y) {
 	    switch (currentState) {
 	    
@@ -100,13 +108,16 @@ public class GameWorld {
             
 	    case RUNNING:
             if (topLeft.isInside(x, y)) {
+                currentRule.buttonClicked(topLeft);
                 
             } else if (topRight.isInside(x, y)) {
+                currentRule.buttonClicked(topRight);
                 
             } else if (bottomLeft.isInside(x, y)) {
+                currentRule.buttonClicked(bottomLeft);
                 
             } else if (bottomRight.isInside(x, y)) {
-                
+                currentRule.buttonClicked(bottomRight);
             }
             break;
 	    }

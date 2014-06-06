@@ -32,7 +32,7 @@ public class GameRenderer {
         
         batcher.begin();
         batcher.disableBlending();
-        batcher.draw(AssetLoader.background, 0, 0, Utils.GAME_WIDTH, gameHeight);
+        batcher.draw(AssetLoader.pixel, 0, 0, Utils.GAME_WIDTH, gameHeight);
         batcher.enableBlending();
 
         switch (world.getCurrentState()) {

@@ -1,7 +1,5 @@
 package helper;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class AssetLoader {
 
     public static Texture texture;
-    public static TextureRegion background;
+    public static TextureRegion pixel;
 
     public static Sound music;
 
@@ -25,7 +23,7 @@ public class AssetLoader {
         texture = new Texture(Gdx.files.internal("data/textures.png"));
         texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 
-        background = new TextureRegion(texture, 0, 0, 1, 1);
+        pixel = new TextureRegion(texture, 0, 0, 1, 1);
         
         
         // Fonts
