@@ -1,16 +1,15 @@
 package com.rightcolor;
 
-import helper.ClickableZone;
+import helper.Callback;
 
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.graphics.Color;
 import com.rightcolor.comunication.ISocialNetworkAPI;
 import com.rightcolor.gameobjects.ColorButton;
-import com.rightcolor.rules.RuleClassic;
-import com.rightcolor.rules.RuleSet;
+import com.rightcolor.rules.RulesClassic;
+import com.rightcolor.rules.RulesSet;
 
 public class GameWorld {
     
@@ -30,17 +29,15 @@ public class GameWorld {
     
     private int gameHeight;
     
-    private int score;
     private GameState currentState;
 
 	private Preferences preferences;
 	
-	private Color targetColor;
     private ColorButton topLeft = new ColorButton();
     private ColorButton topRight = new ColorButton();
     private ColorButton bottomLeft = new ColorButton();
     private ColorButton bottomRight = new ColorButton();
-    private RuleSet currentRule;
+    private RulesSet currentRules;
     
     private ISocialNetworkAPI facebook;
     private ISocialNetworkAPI twitter;
@@ -52,7 +49,7 @@ public class GameWorld {
     	
 //        initialisePreferences();
         
-        reset();
+        resetGame(new RulesClassic());
 //        currentState = GameState.START;
         currentState = GameState.RUNNING;
     }
@@ -72,15 +69,40 @@ public class GameWorld {
         // value = preferences.getInteger(PREFERENCE_KEY);
     }
     
-    public void reset() {
-        currentRule = new RuleClassic();
-        initialiseNewRound();
+    public void resetGame(RulesSet ruleSet) {
+        currentRules = ruleSet;
+        currentRules.replaceEventListeners(RulesSet.EVENT_ROUND_FINISHED, initialiseNewRound);
+        currentRules.replaceEventListeners(RulesSet.EVENT_GAME_END_VICTORY, onVictory);
+        currentRules.replaceEventListeners(RulesSet.EVENT_GAME_END_DEFEAT, onDefeat);
+        initialiseNewRound.call();
     }
     
-    private void initialiseNewRound() {
-        targetColor = currentRule.getNewTargetColor();
-        currentRule.assignColorToButtons(topLeft, topRight, bottomLeft, bottomRight);
-    }
+    private Callback initialiseNewRound = new Callback() {
+        
+        @Override
+        public Object call() {
+            currentRules.generateNewTargetColor();
+            currentRules.assignColorToButtons(topLeft, topRight, bottomLeft, bottomRight);
+            return null;
+        }
+    };
+    
+    private Callback onVictory = new Callback() {
+        
+        @Override
+        public Object call() {
+            GameWorld.this.currentState = GameState.GAME_OVER;
+            return null;
+        }
+    };
+    
+    private Callback onDefeat = new Callback() {
+        
+        @Override
+        public Object call() {
+            return null;
+        }
+    };
 
     public void update(float delta) {
     	if (!GameState.RUNNING.equals(currentState)) {
@@ -91,7 +113,7 @@ public class GameWorld {
             delta = MAX_POSSIBLE_DELTA;
         }
     	
-        // elements.update(delta);
+        currentRules.decreaseTimer(delta);
     }
 
 	public void onClick(int x, int y) {
@@ -104,20 +126,21 @@ public class GameWorld {
             break;
             
 	    case GAME_OVER:
+	        this.currentState = GameState.RUNNING;
             break;
             
 	    case RUNNING:
             if (topLeft.isInside(x, y)) {
-                currentRule.buttonClicked(topLeft);
+                currentRules.buttonClicked(topLeft);
                 
             } else if (topRight.isInside(x, y)) {
-                currentRule.buttonClicked(topRight);
+                currentRules.buttonClicked(topRight);
                 
             } else if (bottomLeft.isInside(x, y)) {
-                currentRule.buttonClicked(bottomLeft);
+                currentRules.buttonClicked(bottomLeft);
                 
             } else if (bottomRight.isInside(x, y)) {
-                currentRule.buttonClicked(bottomRight);
+                currentRules.buttonClicked(bottomRight);
             }
             break;
 	    }
@@ -141,5 +164,25 @@ public class GameWorld {
 
     public GameState getCurrentState() {
         return currentState;
+    }
+    
+    public RulesSet getCurrentRules() {
+        return currentRules;
+    }
+
+    public ColorButton getTopLeft() {
+        return topLeft;
+    }
+
+    public ColorButton getTopRight() {
+        return topRight;
+    }
+
+    public ColorButton getBottomLeft() {
+        return bottomLeft;
+    }
+
+    public ColorButton getBottomRight() {
+        return bottomRight;
     }
 }
