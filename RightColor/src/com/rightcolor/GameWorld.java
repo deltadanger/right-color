@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.graphics.Color;
 import com.rightcolor.comunication.ISocialNetworkAPI;
 import com.rightcolor.gameobjects.ColorButton;
 import com.rightcolor.rules.RulesClassic;
@@ -25,10 +26,6 @@ public class GameWorld {
     	GAME_OVER
     }
     
-    private Random r = new Random();
-    
-    private int gameHeight;
-    
     private GameState currentState;
 
 	private Preferences preferences;
@@ -42,8 +39,7 @@ public class GameWorld {
     private ISocialNetworkAPI facebook;
     private ISocialNetworkAPI twitter;
 
-    public GameWorld(int gameHeight, ISocialNetworkAPI facebook, ISocialNetworkAPI twitter) {
-    	this.gameHeight = gameHeight;
+    public GameWorld(ISocialNetworkAPI facebook, ISocialNetworkAPI twitter) {
     	this.facebook = facebook;
     	this.twitter = twitter;
     	
@@ -172,19 +168,19 @@ public class GameWorld {
         return currentRules;
     }
 
-    public ColorButton getTopLeft() {
-        return topLeft;
+    public Color getTopLeftColor() {
+        return topLeft.getColor();
     }
 
-    public ColorButton getTopRight() {
-        return topRight;
+    public Color getTopRightColor() {
+        return topRight.getColor();
     }
 
-    public ColorButton getBottomLeft() {
-        return bottomLeft;
+    public Color getBottomLeftColor() {
+        return bottomLeft.getColor();
     }
 
-    public ColorButton getBottomRight() {
-        return bottomRight;
+    public Color getBottomRightColor() {
+        return bottomRight.getColor();
     }
 }

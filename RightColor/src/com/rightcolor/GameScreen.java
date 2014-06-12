@@ -15,7 +15,7 @@ public class GameScreen implements Screen {
     public GameScreen(ISocialNetworkAPI facebook, ISocialNetworkAPI twitter) {
         int gameHeight = (int) (Utils.GAME_WIDTH * Gdx.graphics.getHeight() / Gdx.graphics.getWidth());
         
-        world = new GameWorld(gameHeight, facebook, twitter);
+        world = new GameWorld(facebook, twitter);
         renderer = new GameRenderer(world, gameHeight);
         
         Gdx.input.setInputProcessor(new InputHandler(world));

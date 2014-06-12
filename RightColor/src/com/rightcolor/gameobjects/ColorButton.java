@@ -6,6 +6,7 @@ import helper.ClickableZone;
 
 
 public class ColorButton extends ClickableZone {
+    public static final int BUTTON_CLICK_ZONE_PADDING = 0;
     
     private Color color;
 

@@ -68,19 +68,19 @@ public class GameRenderer {
         int buttonTop = (int) (gameHeight / 3f);
         int buttonHeight = (int) (gameHeight * 2f / 3f / 2f);
 
-        batcher.setColor(world.getTopLeft().getColor());
+        batcher.setColor(world.getTopLeftColor());
         batcher.draw(AssetLoader.pixel, 0, buttonTop, Utils.GAME_WIDTH/2, buttonHeight);
         world.updateTopLeft(0, buttonTop, Utils.GAME_WIDTH/2, buttonHeight);
 
-        batcher.setColor(world.getTopRight().getColor());
+        batcher.setColor(world.getTopRightColor());
         batcher.draw(AssetLoader.pixel, Utils.GAME_WIDTH/2, buttonTop, Utils.GAME_WIDTH/2, buttonHeight);
         world.updateTopRight(Utils.GAME_WIDTH/2, buttonTop, Utils.GAME_WIDTH/2, buttonHeight);
 
-        batcher.setColor(world.getBottomLeft().getColor());
+        batcher.setColor(world.getBottomLeftColor());
         batcher.draw(AssetLoader.pixel, 0, buttonTop + buttonHeight, Utils.GAME_WIDTH/2, buttonHeight);
         world.updateBottomLeft(0, buttonTop + buttonHeight, Utils.GAME_WIDTH/2, buttonHeight);
 
-        batcher.setColor(world.getBottomRight().getColor());
+        batcher.setColor(world.getBottomRightColor());
         batcher.draw(AssetLoader.pixel, Utils.GAME_WIDTH/2, buttonTop + buttonHeight, Utils.GAME_WIDTH/2, buttonHeight);
         world.updateBottomRight(Utils.GAME_WIDTH/2, buttonTop + buttonHeight, Utils.GAME_WIDTH/2, buttonHeight);
     }
