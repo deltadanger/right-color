@@ -28,13 +28,13 @@ public class AssetLoader {
         
         // Fonts
 
-        mainFont = new BitmapFont(Gdx.files.internal("data/bd_cartoon.fnt"));
+        mainFont = new BitmapFont(Gdx.files.internal("data/machinescript.fnt"));
         mainFont.setScale(.08f, -.08f);
         
         
         // Sounds
 
-        music = Gdx.audio.newSound(Gdx.files.internal("data/gravity_down.wav"));
+//        music = Gdx.audio.newSound(Gdx.files.internal("data/gravity_down.wav"));
         
         // Animations
         // TextureRegion[] anim = { anim1, anim2, anim3};
@@ -45,7 +45,7 @@ public class AssetLoader {
     public static void dispose() {
         texture.dispose();
         mainFont.dispose();
-        music.dispose();
+//        music.dispose();
         // animation.dispose();
     }
 

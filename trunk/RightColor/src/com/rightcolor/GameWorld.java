@@ -100,6 +100,7 @@ public class GameWorld {
         
         @Override
         public Object call() {
+            GameWorld.this.currentState = GameState.GAME_OVER;
             return null;
         }
     };
@@ -126,6 +127,7 @@ public class GameWorld {
             break;
             
 	    case GAME_OVER:
+	        resetGame(new RulesClassic());
 	        this.currentState = GameState.RUNNING;
             break;
             

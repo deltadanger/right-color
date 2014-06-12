@@ -1,5 +1,8 @@
 package com.rightcolor.rules;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import helper.EventDispatcher;
 
 import com.badlogic.gdx.graphics.Color;
@@ -19,6 +22,14 @@ public abstract class RulesSet extends EventDispatcher {
         Color.GREEN,
         Color.PINK
     };
+    
+    @SuppressWarnings("serial")
+    public static final Map<Color, String> COLOR_NAME = new HashMap<Color, String>(){{
+        this.put(AVAILABLE_COLORS[0], "Blue");
+        this.put(AVAILABLE_COLORS[1], "Cyan");
+        this.put(AVAILABLE_COLORS[2], "Green");
+        this.put(AVAILABLE_COLORS[3], "Pink");
+    }};
 
     public abstract Color generateNewTargetColor();
 
@@ -33,7 +44,7 @@ public abstract class RulesSet extends EventDispatcher {
     
     public abstract float getTotalTime();
     
-    public abstract float getScore();
+    public abstract int getScore();
     
     public abstract String getPreferencesKey();
     
