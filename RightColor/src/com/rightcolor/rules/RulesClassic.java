@@ -7,18 +7,22 @@ import com.rightcolor.gameobjects.ColorButton;
 
 public class RulesClassic extends RulesSet {
 
-    private final float TOTAL_TIMER = 60f;
+    private final float TOTAL_TIMER = 10f;
     private final Color TEXT_COLOR = Color.WHITE;
     private final String PREFERENCES_KEY = "preferencesRulesClassic";
     
     private float timer = TOTAL_TIMER;
-    private float score = 0;
+    private int score = 0;
     
     private Random r = new Random();
     
     @Override
     public Color generateNewTargetColor() {
-        targetColor = AVAILABLE_COLORS[r.nextInt(AVAILABLE_COLORS.length)];
+        Color newColor = AVAILABLE_COLORS[r.nextInt(AVAILABLE_COLORS.length)];
+        while (newColor.equals(targetColor)) {
+            newColor = AVAILABLE_COLORS[r.nextInt(AVAILABLE_COLORS.length)];
+        }
+        targetColor = newColor;
         return targetColor;
     }
 
@@ -38,6 +42,9 @@ public class RulesClassic extends RulesSet {
         if (targetColor != null && targetColor.equals(button.getColor())) {
             score++;
             dispatchEvent(EVENT_ROUND_FINISHED);
+            
+        } else if (!targetColor.equals(button.getColor())) {
+            dispatchEvent(EVENT_GAME_END_DEFEAT);
         }
     }
 
@@ -45,7 +52,7 @@ public class RulesClassic extends RulesSet {
     public void decreaseTimer(float delta) {
         timer -= delta;
         if (timer <= 0) {
-            dispatchEvent(EVENT_GAME_END_DEFEAT);
+            dispatchEvent(EVENT_GAME_END_VICTORY);
         }
     }
 
@@ -60,7 +67,7 @@ public class RulesClassic extends RulesSet {
     }
 
     @Override
-    public float getScore() {
+    public int getScore() {
         return score;
     }
 

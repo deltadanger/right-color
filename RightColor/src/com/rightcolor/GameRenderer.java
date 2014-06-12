@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.rightcolor.rules.RulesSet;
 
 public class GameRenderer {
 
@@ -55,12 +56,12 @@ public class GameRenderer {
     
     private void renderRunning() {
         batcher.setColor(Color.LIGHT_GRAY);
-        String time = ""+world.getCurrentRules().getRemainingTime();
+        String time = String.format("%.1f", world.getCurrentRules().getRemainingTime());
         TextBounds b = AssetLoader.mainFont.getBounds(time);
         AssetLoader.mainFont.draw(batcher, time, Utils.GAME_WIDTH/2 - b.width/2, TIMER_POSITION_Y);
         
         batcher.setColor(world.getCurrentRules().getTextColor());
-        String color = ""+world.getCurrentRules().getTargetColor();
+        String color = RulesSet.COLOR_NAME.get(world.getCurrentRules().getTargetColor());
         b = AssetLoader.mainFont.getBounds(color);
         AssetLoader.mainFont.draw(batcher, color, Utils.GAME_WIDTH/2 - b.width/2, COLOR_POSITION_Y);
         
