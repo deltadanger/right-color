@@ -3,7 +3,6 @@ package com.rightcolor;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -17,7 +16,7 @@ import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 
 public class MainActivity extends AndroidApplication {
-    public static final int BACKGROUND_COLOR = Color.parseColor("#BDFAFF");
+    public static final int BACKGROUND_COLOR = Color.BLACK;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,7 +41,7 @@ public class MainActivity extends AndroidApplication {
         layout.addView(gameView, gameViewParams);
 
         AdView adView = new AdView(this);
-        adView.setAdUnitId("ca-app-pub-3293663299631285/3310259054");
+        adView.setAdUnitId("");
         adView.setAdSize(AdSize.BANNER);
         
         RelativeLayout.LayoutParams adParams = 

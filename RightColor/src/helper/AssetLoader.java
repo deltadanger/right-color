@@ -11,6 +11,9 @@ public class AssetLoader {
 
     public static Texture texture;
     public static TextureRegion pixel;
+    public static TextureRegion textColor;
+    public static TextureRegion levelButton;
+    public static TextureRegion levelButtonActive;
 
     public static Sound music;
 
@@ -25,11 +28,20 @@ public class AssetLoader {
 
         pixel = new TextureRegion(texture, 0, 0, 1, 1);
         
+        textColor = new TextureRegion(texture, 1, 1, 300, 100);
+        textColor.flip(false, true);
+        
+        levelButton = new TextureRegion(texture, 0, 0, 1, 1);
+        levelButton.flip(false, true);
+        
+        levelButtonActive = new TextureRegion(texture, 0, 0, 1, 1);
+        levelButtonActive.flip(false, true);
+        
         
         // Fonts
 
         mainFont = new BitmapFont(Gdx.files.internal("data/machinescript.fnt"));
-        mainFont.setScale(.08f, -.08f);
+        mainFont.setScale(.1f, -.1f);
         
         
         // Sounds
