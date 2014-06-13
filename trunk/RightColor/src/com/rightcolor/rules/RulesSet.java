@@ -14,13 +14,15 @@ public abstract class RulesSet extends EventDispatcher {
     public static String EVENT_GAME_END_VICTORY = "eventGameEndVictory";
     public static String EVENT_GAME_END_DEFEAT = "eventGameEndDefeat";
     
+    private static final float COLOR_LIGHT = 0.9f;
+    
     protected Color targetColor;
     
     public static final Color[] AVAILABLE_COLORS = {
-        Color.BLUE,
-        Color.CYAN,
-        Color.GREEN,
-        Color.PINK
+        Color.BLUE.sub(0, 0, 0, 1-COLOR_LIGHT).premultiplyAlpha(),
+        Color.CYAN.sub(0, 0, 0, 1-COLOR_LIGHT).premultiplyAlpha(),
+        Color.GREEN.sub(0, 0, 0, 1-COLOR_LIGHT).premultiplyAlpha(),
+        Color.PINK.sub(0, 0, 0, 1-COLOR_LIGHT).premultiplyAlpha()
     };
     
     @SuppressWarnings("serial")

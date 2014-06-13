@@ -1,6 +1,7 @@
 package helper;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.rightcolor.GameWorld;
 
@@ -15,11 +16,14 @@ public class InputHandler implements InputProcessor {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         float ratio = 1f*Utils.GAME_WIDTH / Gdx.graphics.getWidth();
         world.onClick((int)(screenX*ratio), (int)(screenY*ratio));
-        return true;
+        return false;
     }
 
     @Override
     public boolean keyDown(int keycode) {
+        if(keycode == Keys.BACK){
+            world.onBackClick();
+        }
         return false;
     }
 
