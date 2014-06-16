@@ -3,26 +3,19 @@ package com.rightcolor.rules;
 import java.util.HashMap;
 import java.util.Map;
 
-import helper.EventDispatcher;
-
 import com.badlogic.gdx.graphics.Color;
-import com.rightcolor.gameobjects.ColorButton;
 
-public abstract class RulesSet extends EventDispatcher {
+public interface RulesSet extends RulesSetFromLevel, RulesSetFromMode {
 
-    public static String EVENT_ROUND_FINISHED = "eventRoundFinished";
-    public static String EVENT_GAME_END_VICTORY = "eventGameEndVictory";
-    public static String EVENT_GAME_END_DEFEAT = "eventGameEndDefeat";
-    
-    private static final float COLOR_LIGHT = 0.9f;
-    
-    protected Color targetColor;
+    public static final String EVENT_ROUND_FINISHED = "eventRoundFinished";
+    public static final String EVENT_GAME_END_VICTORY = "eventGameEndVictory";
+    public static final String EVENT_GAME_END_DEFEAT = "eventGameEndDefeat";
     
     public static final Color[] AVAILABLE_COLORS = {
-        Color.BLUE.sub(0, 0, 0, 1-COLOR_LIGHT).premultiplyAlpha(),
-        Color.CYAN.sub(0, 0, 0, 1-COLOR_LIGHT).premultiplyAlpha(),
-        Color.GREEN.sub(0, 0, 0, 1-COLOR_LIGHT).premultiplyAlpha(),
-        Color.PINK.sub(0, 0, 0, 1-COLOR_LIGHT).premultiplyAlpha()
+        Color.BLUE.sub(0.1f, 0.1f, 0.1f, 0),
+        Color.CYAN.sub(0.1f, 0.1f, 0.1f, 0),
+        Color.GREEN.sub(0.1f, 0.1f, 0.1f, 0),
+        Color.PINK.sub(0.1f, 0.1f, 0.1f, 0)
     };
     
     @SuppressWarnings("serial")
@@ -33,26 +26,5 @@ public abstract class RulesSet extends EventDispatcher {
         this.put(AVAILABLE_COLORS[3], "Pink");
     }};
 
-    public abstract Color generateNewTargetColor();
-
-    public abstract void assignColorToButtons(ColorButton topLeft, ColorButton topRight,
-            ColorButton bottomLeft, ColorButton bottomRight);
-
-    public abstract void buttonClicked(ColorButton button);
-    
-    public abstract void decreaseTimer(float delta);
-    
-    public abstract float getRemainingTime();
-    
-    public abstract float getTotalTime();
-    
-    public abstract int getScore();
-    
-    public abstract String getPreferencesKey();
-    
-    public abstract Color getTextColor();
-    
-    public Color getTargetColor() {
-        return targetColor;
-    }
+    public String getPreferencesKey();
 }
