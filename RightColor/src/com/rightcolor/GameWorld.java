@@ -5,14 +5,12 @@ import helper.ClickableZone;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Color;
 import com.rightcolor.comunication.ISocialNetworkAPI;
 import com.rightcolor.gameobjects.ColorButton;
-import com.rightcolor.rules.RulesClassic;
 import com.rightcolor.rules.RulesFactory;
 import com.rightcolor.rules.RulesSet;
 
@@ -22,8 +20,6 @@ public class GameWorld {
     public static final String PREFERENCE_KEY_SCORE = "keyScore";
     public static final String PREFERENCE_KEY_LEVEL = "keyLevel";
     
-    public static final float MAX_POSSIBLE_DELTA = .15f;
-    
     public static enum GameState {
         MENU,
     	RUNNING,
@@ -31,9 +27,10 @@ public class GameWorld {
     }
     
     public static enum GameMode {
-        SPRINT("Sprint"), // Validate as many as possible in X(20) seconds
+        SPRINT("Sprint"), // Validate X(30) as fast as possible
         MARATHON("Marathon"), // Timer resets to X(10) every Y(15) validated 
-        FASTER("Faster 'n faster"); // Decreasing timer to validate X(5)
+        FASTER("Faster 'n faster"), // Decreasing timer to validate X(5)
+        BLAH("BLAH"); // ???? Validate as many as possible in X(20) seconds
         
         private String text;
         private GameMode(String text) {
@@ -139,12 +136,8 @@ public class GameWorld {
     	if (!GameState.RUNNING.equals(currentState)) {
     		return;
     	}
-
-        if (delta > MAX_POSSIBLE_DELTA) {
-            delta = MAX_POSSIBLE_DELTA;
-        }
     	
-        currentRules.decreaseTimer(delta);
+        currentRules.updateTimer(delta);
     }
     
     public void onBackClick() {
@@ -234,7 +227,7 @@ public class GameWorld {
     }
     
     private void handleClickOnGameOver(int x, int y) {
-        resetGame(new RulesClassic());
+        resetGame(rulesFactory.getRulesSet(currentRules.getGameMode(), level));
         this.currentState = GameState.RUNNING;
     }
     
