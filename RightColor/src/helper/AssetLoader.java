@@ -31,10 +31,10 @@ public class AssetLoader {
         textColor = new TextureRegion(texture, 1, 1, 300, 100);
         textColor.flip(false, true);
         
-        levelButton = new TextureRegion(texture, 0, 0, 1, 1);
+        levelButton = new TextureRegion(texture, 320, 68, 100, 50);
         levelButton.flip(false, true);
-        
-        levelButtonActive = new TextureRegion(texture, 0, 0, 1, 1);
+
+        levelButton = new TextureRegion(texture, 320, 13, 100, 50);
         levelButtonActive.flip(false, true);
         
         
