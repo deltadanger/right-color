@@ -67,6 +67,7 @@ public class GameRenderer {
     
     private void renderMenu() {
         TextBounds b;
+        batcher.setColor(Color.WHITE);
         int availableSpace = draw4buttons(true);
 
         batcher.setColor(Color.LIGHT_GRAY);
@@ -92,8 +93,8 @@ public class GameRenderer {
         buttons[world.getLevel()-1] = AssetLoader.levelButtonActive;
         int buttonLeft = (int) (b.width + LEVEL_TEXT_MARGIN);
         
+        batcher.setColor(Color.WHITE);
         for (int i = 0; i < 4; i++) {
-            batcher.setColor(RulesSet.AVAILABLE_COLORS[i]);
             batcher.draw(buttons[i], buttonLeft, availableSpace * LEVEL_POSITION_Y, buttonWidth, buttonHeight);
             level = ""+(i+1);
             b = AssetLoader.mainFont.getBounds(level);

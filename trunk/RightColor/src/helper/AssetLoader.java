@@ -34,7 +34,7 @@ public class AssetLoader {
         levelButton = new TextureRegion(texture, 320, 68, 100, 50);
         levelButton.flip(false, true);
 
-        levelButton = new TextureRegion(texture, 320, 13, 100, 50);
+        levelButtonActive = new TextureRegion(texture, 320, 13, 100, 50);
         levelButtonActive.flip(false, true);
         
         
