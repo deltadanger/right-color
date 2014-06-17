@@ -6,19 +6,19 @@ import java.util.Map;
 import com.rightcolor.GameWorld.GameMode;
 import com.rightcolor.gameobjects.ColorButton;
 import com.rightcolor.rules.impl.Rules;
-import com.rightcolor.rules.impl.RulesModeFaster;
 import com.rightcolor.rules.impl.RulesLevel1;
 import com.rightcolor.rules.impl.RulesLevel2;
 import com.rightcolor.rules.impl.RulesLevel3;
 import com.rightcolor.rules.impl.RulesLevel4;
+import com.rightcolor.rules.impl.RulesModeFaster;
 import com.rightcolor.rules.impl.RulesModeMarathon;
-import com.rightcolor.rules.impl.RulesBaseMode;
+import com.rightcolor.rules.impl.RulesModeSprint;
 
 public class RulesFactory {
     
     @SuppressWarnings("serial")
     Map<GameMode, Class<? extends RulesSetFromMode>> modeToClass = new HashMap<GameMode, Class<? extends RulesSetFromMode>>() {{
-        put(GameMode.SPRINT, RulesBaseMode.class);
+        put(GameMode.SPRINT, RulesModeSprint.class);
         put(GameMode.MARATHON, RulesModeMarathon.class);
         put(GameMode.FASTER, RulesModeFaster.class);
     }};
@@ -42,7 +42,7 @@ public class RulesFactory {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        return null;
+         return null;
     }
     
     public void assignInitialColorToButtons(ColorButton topLeft,
