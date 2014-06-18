@@ -5,12 +5,21 @@ import com.rightcolor.gameobjects.ColorButton;
 import com.rightcolor.rules.RulesSetFromLevel;
 
 public class RulesLevel4 implements RulesSetFromLevel  {
+    
+    RulesLevel3 level3instance = new RulesLevel3();
 
     @Override
-    public void assignColorToButtons(ColorButton topLeft,
+    public Color[] assignInitialColorToButtons(ColorButton topLeft,
             ColorButton topRight, ColorButton bottomLeft,
             ColorButton bottomRight) {
-        new RulesLevel2().assignColorToButtons(topLeft, topRight, bottomLeft, bottomRight);
+        return new RulesLevel2().assignInitialColorToButtons(topLeft, topRight, bottomLeft, bottomRight);
+    }
+
+    @Override
+    public Color[] assignColorToButtons(ColorButton topLeft,
+            ColorButton topRight, ColorButton bottomLeft,
+            ColorButton bottomRight) {
+        return new RulesLevel2().assignColorToButtons(topLeft, topRight, bottomLeft, bottomRight);
     }
 
     @Override
@@ -20,6 +29,11 @@ public class RulesLevel4 implements RulesSetFromLevel  {
 
     @Override
     public Color getTextColor() {
-        return new RulesLevel3().getTextColor();
+        return level3instance.getTextColor();
+    }
+
+    @Override
+    public void setNewTextColor() {
+        level3instance.setNewTextColor();
     }
 }

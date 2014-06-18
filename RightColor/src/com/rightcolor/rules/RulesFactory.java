@@ -1,5 +1,7 @@
 package com.rightcolor.rules;
 
+import helper.Utils;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,9 +34,8 @@ public class RulesFactory {
     }};
 
     public RulesSet getRulesSet(GameMode mode, int level) {
-        RulesSetFromMode rulesFromMode;
         try {
-            rulesFromMode = modeToClass.get(mode).newInstance();
+            RulesSetFromMode rulesFromMode = modeToClass.get(mode).newInstance();
             RulesSetFromLevel rulesFromLevel = levelToClass.get(level).newInstance();
             return new Rules(rulesFromLevel, rulesFromMode);
         } catch (InstantiationException e) {

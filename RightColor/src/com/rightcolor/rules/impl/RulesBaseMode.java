@@ -1,8 +1,7 @@
 package com.rightcolor.rules.impl;
 
 import helper.EventDispatcherImpl;
-
-import java.util.Random;
+import helper.Utils;
 
 import com.badlogic.gdx.graphics.Color;
 import com.rightcolor.rules.RulesSet;
@@ -10,20 +9,16 @@ import com.rightcolor.rules.RulesSetFromMode;
 
 public abstract class RulesBaseMode extends EventDispatcherImpl implements RulesSetFromMode  {
 
-    protected final float TOTAL_TIMER = 0;
-    
-    protected float timer = TOTAL_TIMER;
+    protected float time = getTotalTime();
     protected int score = 0;
-    
-    private Random r = new Random();
     
     protected Color targetColor;
 
     @Override
-    public Color generateNewTargetColor() {
-        Color newColor = RulesSet.AVAILABLE_COLORS[r.nextInt(RulesSet.AVAILABLE_COLORS.length)];
+    public Color generateNewTargetColor(Color[] availableColors) {
+        Color newColor = Utils.getRandomColor(availableColors);
         while (newColor.equals(targetColor)) {
-            newColor = RulesSet.AVAILABLE_COLORS[r.nextInt(RulesSet.AVAILABLE_COLORS.length)];
+            newColor = Utils.getRandomColor(availableColors);
         }
         targetColor = newColor;
         return targetColor;
@@ -31,20 +26,20 @@ public abstract class RulesBaseMode extends EventDispatcherImpl implements Rules
 
     @Override
     public void updateTimer(float delta) {
-        timer -= delta;
-        if (timer <= 0) {
+        time -= delta;
+        if (time <= 0) {
             dispatchEvent(RulesSet.EVENT_GAME_END_VICTORY);
         }
     }
 
     @Override
     public float getRemainingTime() {
-        return timer;
+        return time;
     }
 
     @Override
     public float getTotalTime() {
-        return TOTAL_TIMER;
+        return 0;
     }
 
     @Override

@@ -3,9 +3,6 @@ package com.rightcolor;
 import helper.Callback;
 import helper.ClickableZone;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Color;
@@ -51,17 +48,10 @@ public class GameWorld {
     private ClickableZone level3 = new ClickableZone();
     private ClickableZone level4 = new ClickableZone();
 	
-    private ColorButton topLeft = new ColorButton();
-    private ColorButton topRight = new ColorButton();
-    private ColorButton bottomLeft = new ColorButton();
-    private ColorButton bottomRight = new ColorButton();
-    @SuppressWarnings("serial")
-    private Map<ColorButton, GameMode> buttonToMode = new HashMap<ColorButton, GameWorld.GameMode>() {{
-        this.put(topLeft, GameMode.SPRINT);
-        this.put(topRight, GameMode.MARATHON);
-        this.put(bottomLeft, GameMode.FASTER);
-        this.put(bottomRight, GameMode.FASTER);
-    }};
+    private ColorButton topLeft = new ColorButton(GameMode.SPRINT);
+    private ColorButton topRight = new ColorButton(GameMode.MARATHON);
+    private ColorButton bottomLeft = new ColorButton(GameMode.FASTER);
+    private ColorButton bottomRight = new ColorButton(GameMode.FASTER);
     
     private RulesSet currentRules;
     private RulesFactory rulesFactory = new RulesFactory();
@@ -101,6 +91,7 @@ public class GameWorld {
         currentRules.replaceEventListeners(RulesSet.EVENT_ROUND_FINISHED, initialiseNewRound);
         currentRules.replaceEventListeners(RulesSet.EVENT_GAME_END_VICTORY, onVictory);
         currentRules.replaceEventListeners(RulesSet.EVENT_GAME_END_DEFEAT, onDefeat);
+        currentRules.assignInitialColorToButtons(topLeft, topRight, bottomLeft, bottomRight);
         initialiseNewRound.call();
     }
     
@@ -108,8 +99,10 @@ public class GameWorld {
         
         @Override
         public Object call() {
-            currentRules.generateNewTargetColor();
-            currentRules.assignColorToButtons(topLeft, topRight, bottomLeft, bottomRight);
+            Color[] availableColors = currentRules.assignColorToButtons(topLeft, topRight, bottomLeft, bottomRight);
+            currentRules.generateNewTargetColor(availableColors);
+            currentRules.setNewTextColor();
+            
             return null;
         }
     };
@@ -188,7 +181,7 @@ public class GameWorld {
         }
         
         if (button != null) {
-            resetGame(rulesFactory.getRulesSet(getGameModeForButton(button), level));
+            resetGame(rulesFactory.getRulesSet(button.getMode(), level));
             currentState = GameState.RUNNING;
         }
         
@@ -232,71 +225,27 @@ public class GameWorld {
     }
     
     
-    public void updateLevel1(int x, int y, int width, int height) {
-        level1.update(x, y, width, height);
+    public void updateLevelButton(int level, int x, int y, int width, int height) {
+        ClickableZone[] buttons = new ClickableZone[]{level1, level2, level3, level4};
+        buttons[level-1].update(x, y, width, height);
     }
     
-    public void updateLevel2(int x, int y, int width, int height) {
-        level2.update(x, y, width, height);
+    public ColorButton getTopLeft() {
+        return topLeft;
+    }
+
+    public ColorButton getTopRight() {
+        return topRight;
+    }
+
+    public ColorButton getBottomLeft() {
+        return bottomLeft;
+    }
+
+    public ColorButton getBottomRight() {
+        return bottomRight;
     }
     
-    public void updateLevel3(int x, int y, int width, int height) {
-        level3.update(x, y, width, height);
-    }
-    
-    public void updateLevel4(int x, int y, int width, int height) {
-        level4.update(x, y, width, height);
-    }
-    
-    
-    public void updateTopLeft(int x, int y, int width, int height) {
-        topLeft.update(x, y, width, height);
-    }
-    
-    public void updateTopRight(int x, int y, int width, int height) {
-        topRight.update(x, y, width, height);
-    }
-    
-    public void updateBottomLeft(int x, int y, int width, int height) {
-        bottomLeft.update(x, y, width, height);
-    }
-    
-    public void updateBottomRight(int x, int y, int width, int height) {
-        bottomRight.update(x, y, width, height);
-    }
-
-    public Color getTopLeftColor() {
-        return topLeft.getColor();
-    }
-
-    public Color getTopRightColor() {
-        return topRight.getColor();
-    }
-
-    public Color getBottomLeftColor() {
-        return bottomLeft.getColor();
-    }
-
-    public Color getBottomRightColor() {
-        return bottomRight.getColor();
-    }
-
-    public String getTopLeftText() {
-        return buttonToMode.get(topLeft).text;
-    }
-
-    public String getTopRightText() {
-        return buttonToMode.get(topRight).text;
-    }
-
-    public String getBottomLeftText() {
-        return buttonToMode.get(bottomLeft).text;
-    }
-
-    public String getBottomRightText() {
-        return buttonToMode.get(bottomRight).text;
-    }
-
     public GameState getCurrentState() {
         return currentState;
     }
@@ -307,9 +256,5 @@ public class GameWorld {
     
     public int getLevel() {
         return level;
-    }
-    
-    public GameMode getGameModeForButton(ColorButton button) {
-        return buttonToMode.get(button);
     }
 }

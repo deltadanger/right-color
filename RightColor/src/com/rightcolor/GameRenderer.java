@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.rightcolor.gameobjects.ColorButton;
 import com.rightcolor.rules.RulesSet;
 
 public class GameRenderer {
@@ -67,15 +68,15 @@ public class GameRenderer {
     
     private void renderMenu() {
         TextBounds b;
-        batcher.setColor(Color.WHITE);
         int availableSpace = draw4buttons(true);
 
-        batcher.setColor(Color.LIGHT_GRAY);
+        AssetLoader.mainFont.setColor(Color.WHITE);
         
         String title = "Pick the right";
         b = AssetLoader.mainFont.getBounds(title);
         AssetLoader.mainFont.draw(batcher, title, Utils.GAME_WIDTH/2 - b.width/2, availableSpace * TITLE_POSITION);
 
+        batcher.setColor(Color.WHITE);
         int width = TITLE_2_WIDTH;
         int height = width * AssetLoader.textColor.getRegionHeight() / AssetLoader.textColor.getRegionWidth();
         batcher.draw(AssetLoader.textColor, Utils.GAME_WIDTH/2 - width/2, availableSpace * TITLE_POSITION_2, width, height);
@@ -89,13 +90,14 @@ public class GameRenderer {
 
         int buttonWidth = (int) (Utils.GAME_WIDTH - b.width - LEVEL_TEXT_MARGIN) / 4;
         
-        TextureRegion[] buttons = {AssetLoader.levelButton, AssetLoader.levelButton, AssetLoader.levelButton, AssetLoader.levelButton};
-        buttons[world.getLevel()-1] = AssetLoader.levelButtonActive;
+        TextureRegion[] buttonTextures = {AssetLoader.levelButton, AssetLoader.levelButton, AssetLoader.levelButton, AssetLoader.levelButton};
+        buttonTextures[world.getLevel()-1] = AssetLoader.levelButtonActive;
         int buttonLeft = (int) (b.width + LEVEL_TEXT_MARGIN);
         
         batcher.setColor(Color.WHITE);
         for (int i = 0; i < 4; i++) {
-            batcher.draw(buttons[i], buttonLeft, availableSpace * LEVEL_POSITION_Y, buttonWidth, buttonHeight);
+            batcher.draw(buttonTextures[i], buttonLeft, availableSpace * LEVEL_POSITION_Y, buttonWidth, buttonHeight);
+            world.updateLevelButton(i+1, buttonLeft, (int) (availableSpace * LEVEL_POSITION_Y), buttonWidth, buttonHeight);
             level = ""+(i+1);
             b = AssetLoader.mainFont.getBounds(level);
             AssetLoader.mainFont.draw(batcher, level, buttonLeft + buttonWidth/2 - b.width/2,
@@ -107,12 +109,12 @@ public class GameRenderer {
     private void renderRunning() {
         draw4buttons();
         
-        batcher.setColor(Color.LIGHT_GRAY);
+        AssetLoader.mainFont.setColor(Color.LIGHT_GRAY);
         String time = String.format("%.1f", world.getCurrentRules().getRemainingTime());
         TextBounds b = AssetLoader.mainFont.getBounds(time);
         AssetLoader.mainFont.draw(batcher, time, Utils.GAME_WIDTH/2 - b.width/2, TIMER_POSITION_Y);
         
-        batcher.setColor(world.getCurrentRules().getTextColor());
+        AssetLoader.mainFont.setColor(world.getCurrentRules().getTextColor());
         String color = RulesSet.COLOR_NAME.get(world.getCurrentRules().getTargetColor());
         b = AssetLoader.mainFont.getBounds(color);
         AssetLoader.mainFont.draw(batcher, color, Utils.GAME_WIDTH/2 - b.width/2, COLOR_POSITION_Y);
@@ -129,50 +131,38 @@ public class GameRenderer {
         int buttonTop = (int) (gameHeight / 3f);
         int buttonHeight = (int) (gameHeight * 2f / 3f / 2f);
 
-        batcher.setColor(world.getTopLeftColor());
-        batcher.draw(AssetLoader.pixel, 0, buttonTop, Utils.GAME_WIDTH/2, buttonHeight);
-        world.updateTopLeft(0, buttonTop, Utils.GAME_WIDTH/2, buttonHeight);
-        if (withText) {
-            text = world.getTopLeftText();
-            b = AssetLoader.mainFont.getBounds(text);
-            AssetLoader.mainFont.draw(batcher, text, Utils.GAME_WIDTH/4 - b.width/2,
-                    buttonTop + buttonHeight/2 + b.height/2); // b.height < 0
-        }
+        ColorButton[] buttons = {world.getTopLeft(), world.getTopRight(), world.getBottomLeft(), world.getBottomRight()};
+        
+        for (int i = 0; i < 4; i++) {
+            ColorButton button = buttons[i];
 
-        batcher.setColor(world.getTopRightColor());
-        batcher.draw(AssetLoader.pixel, Utils.GAME_WIDTH/2, buttonTop, Utils.GAME_WIDTH/2, buttonHeight);
-        world.updateTopRight(Utils.GAME_WIDTH/2, buttonTop, Utils.GAME_WIDTH/2, buttonHeight);
-        if (withText) {
-            text = world.getTopRightText();
-            b = AssetLoader.mainFont.getBounds(text);
-            AssetLoader.mainFont.draw(batcher, text, Utils.GAME_WIDTH/2 + Utils.GAME_WIDTH/4 - b.width/2,
-                    buttonTop + buttonHeight/2 + b.height/2); // b.height < 0
-        }
-
-        batcher.setColor(world.getBottomLeftColor());
-        batcher.draw(AssetLoader.pixel, 0, buttonTop + buttonHeight, Utils.GAME_WIDTH/2, buttonHeight);
-        world.updateBottomLeft(0, buttonTop + buttonHeight, Utils.GAME_WIDTH/2, buttonHeight);
-        if (withText) {
-            text = world.getBottomLeftText();
-            b = AssetLoader.mainFont.getBounds(text);
-            AssetLoader.mainFont.draw(batcher, text, Utils.GAME_WIDTH/4 - b.width/2,
-                    buttonTop + buttonHeight + buttonHeight/2 + b.height/2); // b.height < 0
-        }
-
-        batcher.setColor(world.getBottomRightColor());
-        batcher.draw(AssetLoader.pixel, Utils.GAME_WIDTH/2, buttonTop + buttonHeight, Utils.GAME_WIDTH/2, buttonHeight);
-        world.updateBottomRight(Utils.GAME_WIDTH/2, buttonTop + buttonHeight, Utils.GAME_WIDTH/2, buttonHeight);
-        if (withText) {
-            text = world.getBottomRightText();
-            b = AssetLoader.mainFont.getBounds(text);
-            AssetLoader.mainFont.draw(batcher, text, Utils.GAME_WIDTH/2 + Utils.GAME_WIDTH/4 - b.width/2,
-                    buttonTop + buttonHeight + buttonHeight/2 + b.height/2); // b.height < 0
+            batcher.setColor(button.getColor());
+            
+            int x = 0;
+            if (i%2 != 0) {
+                x = Utils.GAME_WIDTH/2;
+            }
+            
+            int y = buttonTop;
+            if (i > 1) {
+                y += buttonHeight;
+            }
+            
+            batcher.draw(AssetLoader.pixel, x, y, Utils.GAME_WIDTH/2, buttonHeight);
+            button.update(x, y, Utils.GAME_WIDTH/2, buttonHeight);
+            if (withText) {
+                text = button.getMode().toString();
+                b = AssetLoader.mainFont.getBounds(text);
+                AssetLoader.mainFont.draw(batcher, text, x + Utils.GAME_WIDTH/4 - b.width/2,
+                        y + buttonHeight/2 + b.height/2); // b.height < 0
+            }
         }
         
         return gameHeight - buttonHeight*2;
     }
     
     private void renderGameOver() {
+        AssetLoader.mainFont.setColor(Color.WHITE);
         if (world.getCurrentRules() != null) {
              String score = ""+world.getCurrentRules().getScore();
              TextBounds b = AssetLoader.mainFont.getBounds(score);
