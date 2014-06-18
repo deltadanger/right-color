@@ -6,21 +6,26 @@ import com.rightcolor.rules.RulesSet;
 
 public class RulesModeMarathon extends RulesBaseMode {
 
-    protected final float TOTAL_TIMER = 10f;
-    private final int NUMBER_TO_VALIDATE = 15;
+    private final float TOTAL_TIME = 10f;
+    private final int NUMBER_TO_VALIDATE = 10;
     
     @Override
     public void buttonClicked(ColorButton button) {
         if (targetColor != null && targetColor.equals(button.getColor())) {
             score++;
             if (score % NUMBER_TO_VALIDATE == 0) {
-                timer = TOTAL_TIMER;
+                time = getTotalTime();
             }
             dispatchEvent(RulesSet.EVENT_ROUND_FINISHED);
             
         } else if (!targetColor.equals(button.getColor())) {
             dispatchEvent(RulesSet.EVENT_GAME_END_DEFEAT);
         }
+    }
+    
+    @Override
+    public float getTotalTime() {
+        return TOTAL_TIME;
     }
     
     @Override

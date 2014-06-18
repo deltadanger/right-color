@@ -6,19 +6,19 @@ import com.rightcolor.rules.RulesSet;
 
 public class RulesModeFaster extends RulesBaseMode {
 
-    protected final float TOTAL_TIMER = 5f;
-
     private final int NUMBER_TO_VALIDATE = 5;
     private final float TIMER_DECREASE = 0.1f;
-    private float currentTotalTimer = TOTAL_TIMER;
+    private final float START_TOTAL_TIME = 5f;
+    
+    private float currentTotalTime = START_TOTAL_TIME;
     
     @Override
     public void buttonClicked(ColorButton button) {
         if (targetColor != null && targetColor.equals(button.getColor())) {
             score++;
             if (score % NUMBER_TO_VALIDATE == 0) {
-                currentTotalTimer -= TIMER_DECREASE;
-                timer = currentTotalTimer;
+                currentTotalTime -= TIMER_DECREASE;
+                time = currentTotalTime;
             }
             dispatchEvent(RulesSet.EVENT_ROUND_FINISHED);
             
@@ -29,7 +29,10 @@ public class RulesModeFaster extends RulesBaseMode {
     
     @Override
     public float getTotalTime() {
-        return currentTotalTimer;
+        if (currentTotalTime > 0) {
+            return currentTotalTime;
+        }
+        return START_TOTAL_TIME;
     }
 
     @Override

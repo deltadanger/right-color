@@ -8,7 +8,7 @@ import com.rightcolor.gameobjects.ColorButton;
 
 public interface RulesSetFromMode extends EventDispatcher {
 
-    public Color generateNewTargetColor();
+    public Color generateNewTargetColor(Color[] availableColors);
 
     public void buttonClicked(ColorButton button);
     

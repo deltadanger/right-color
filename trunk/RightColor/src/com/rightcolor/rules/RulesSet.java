@@ -25,6 +25,4 @@ public interface RulesSet extends RulesSetFromLevel, RulesSetFromMode {
         this.put(AVAILABLE_COLORS[2], "Green");
         this.put(AVAILABLE_COLORS[3], "Pink");
     }};
-
-    public String getPreferencesKey();
 }

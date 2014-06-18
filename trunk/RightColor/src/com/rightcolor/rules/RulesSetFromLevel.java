@@ -5,9 +5,13 @@ import com.rightcolor.gameobjects.ColorButton;
 
 public interface RulesSetFromLevel {
 
-    public void assignColorToButtons(ColorButton topLeft, ColorButton topRight,
+    public Color[] assignInitialColorToButtons(ColorButton topLeft, ColorButton topRight,
             ColorButton bottomLeft, ColorButton bottomRight);
 
+    public Color[] assignColorToButtons(ColorButton topLeft, ColorButton topRight,
+            ColorButton bottomLeft, ColorButton bottomRight);
+
+    public void setNewTextColor();
     public Color getTextColor();
 
     public String getPreferencesKey();

@@ -25,9 +25,21 @@ public class Rules implements RulesSet, EventDispatcher {
     }
 
     @Override
-    public void assignColorToButtons(ColorButton topLeft, ColorButton topRight,
+    public Color[] assignInitialColorToButtons(ColorButton topLeft,
+            ColorButton topRight, ColorButton bottomLeft,
+            ColorButton bottomRight) {
+        return rulesFromLevel.assignInitialColorToButtons(topLeft, topRight, bottomLeft, bottomRight);
+    }
+
+    @Override
+    public Color[] assignColorToButtons(ColorButton topLeft, ColorButton topRight,
             ColorButton bottomLeft, ColorButton bottomRight) {
-        rulesFromLevel.assignColorToButtons(topLeft, topRight, bottomLeft, bottomRight);
+        return rulesFromLevel.assignColorToButtons(topLeft, topRight, bottomLeft, bottomRight);
+    }
+
+    @Override
+    public void setNewTextColor() {
+        rulesFromLevel.setNewTextColor();
     }
 
     @Override
@@ -36,8 +48,8 @@ public class Rules implements RulesSet, EventDispatcher {
     }
 
     @Override
-    public Color generateNewTargetColor() {
-        return rulesFromMode.generateNewTargetColor();
+    public Color generateNewTargetColor(Color[] availableColors) {
+        return rulesFromMode.generateNewTargetColor(availableColors);
     }
 
     @Override

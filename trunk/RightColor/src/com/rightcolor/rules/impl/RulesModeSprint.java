@@ -6,8 +6,8 @@ import com.rightcolor.rules.RulesSet;
 
 public class RulesModeSprint extends RulesBaseMode {
 
-    protected final float TOTAL_TIMER = 20f;
-
+    private final float TOTAL_TIME = 20f;
+    
     @Override
     public void buttonClicked(ColorButton button) {
         if (targetColor != null && targetColor.equals(button.getColor())) {
@@ -17,6 +17,11 @@ public class RulesModeSprint extends RulesBaseMode {
         } else if (!targetColor.equals(button.getColor())) {
             dispatchEvent(RulesSet.EVENT_GAME_END_DEFEAT);
         }
+    }
+    
+    @Override
+    public float getTotalTime() {
+        return TOTAL_TIME;
     }
 
     @Override

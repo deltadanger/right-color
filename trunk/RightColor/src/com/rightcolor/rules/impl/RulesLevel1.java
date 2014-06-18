@@ -1,23 +1,51 @@
 package com.rightcolor.rules.impl;
 
+import helper.Utils;
+
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.Color;
 import com.rightcolor.gameobjects.ColorButton;
-import com.rightcolor.rules.RulesSet;
 import com.rightcolor.rules.RulesSetFromLevel;
 
 public class RulesLevel1 implements RulesSetFromLevel  {
 
     private final Color TEXT_COLOR = Color.WHITE;
-
-    @Override
-    public void assignColorToButtons(ColorButton topLeft,
+    
+    public static Color[] assignRandomColorToButtons(ColorButton topLeft,
             ColorButton topRight, ColorButton bottomLeft,
             ColorButton bottomRight) {
 
-        topLeft.setColor(RulesSet.AVAILABLE_COLORS[0]);
-        topRight.setColor(RulesSet.AVAILABLE_COLORS[1]);
-        bottomLeft.setColor(RulesSet.AVAILABLE_COLORS[2]);
-        bottomRight.setColor(RulesSet.AVAILABLE_COLORS[3]);
+        ColorButton[] buttons = {topLeft, topRight, bottomLeft, bottomRight};
+        ArrayList<Color> assignedColor = new ArrayList<Color>();
+        
+        for (int i = 0; i < buttons.length; i++) {
+            ColorButton b = buttons[i];
+            Color c = Utils.getRandomColor();
+            while (assignedColor.contains(c)) {
+                c = Utils.getRandomColor();
+            }
+            b.setColor(c);
+            assignedColor.add(c);
+        }
+        
+        return assignedColor.toArray(new Color[]{});
+    }
+
+    @Override
+    public Color[] assignInitialColorToButtons(ColorButton topLeft,
+            ColorButton topRight, ColorButton bottomLeft,
+            ColorButton bottomRight) {
+        
+        return assignRandomColorToButtons(topLeft, topRight, bottomLeft, bottomRight);
+    }
+
+    @Override
+    public Color[] assignColorToButtons(ColorButton topLeft,
+            ColorButton topRight, ColorButton bottomLeft,
+            ColorButton bottomRight) {
+
+        return new Color[]{topLeft.getColor(), topRight.getColor(), bottomLeft.getColor(), bottomRight.getColor()};
     }
 
     @Override
@@ -29,4 +57,7 @@ public class RulesLevel1 implements RulesSetFromLevel  {
     public Color getTextColor() {
         return TEXT_COLOR;
     }
+
+    @Override
+    public void setNewTextColor() {}
 }
