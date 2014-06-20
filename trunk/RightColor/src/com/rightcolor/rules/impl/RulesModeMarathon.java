@@ -32,9 +32,4 @@ public class RulesModeMarathon extends RulesBaseMode {
     public GameMode getGameMode() {
         return GameMode.MARATHON;
     }
-    
-    @Override
-    public String getPreferencesKey() {
-        return "Marathon";
-    }
 }

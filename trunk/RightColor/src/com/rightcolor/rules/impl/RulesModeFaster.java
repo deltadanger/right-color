@@ -34,12 +34,7 @@ public class RulesModeFaster extends RulesBaseMode {
         }
         return START_TOTAL_TIME;
     }
-
-    @Override
-    public String getPreferencesKey() {
-        return "Faster";
-    }
-
+    
     @Override
     public GameMode getGameMode() {
         return GameMode.FASTER;

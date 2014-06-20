@@ -21,7 +21,7 @@ public class RulesLevel2 implements RulesSetFromLevel  {
     }
 
     @Override
-    public String getPreferencesKey() {
+    public String getLevelPreferencesKey() {
         return "Level2";
     }
 
@@ -31,5 +31,10 @@ public class RulesLevel2 implements RulesSetFromLevel  {
     @Override
     public Color getTextColor() {
         return new RulesLevel1().getTextColor();
+    }
+
+    @Override
+    public String getLevelName() {
+        return "Level 2";
     }
 }
