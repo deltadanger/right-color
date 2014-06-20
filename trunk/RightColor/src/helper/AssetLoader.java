@@ -14,6 +14,9 @@ public class AssetLoader {
     public static TextureRegion textColor;
     public static TextureRegion levelButton;
     public static TextureRegion levelButtonActive;
+    
+    public static TextureRegion twitter;
+    public static TextureRegion facebook;
 
     public static Sound music;
 
@@ -36,12 +39,17 @@ public class AssetLoader {
 
         levelButtonActive = new TextureRegion(texture, 320, 13, 100, 50);
         levelButtonActive.flip(false, true);
+
+        twitter = new TextureRegion(texture, 19, 151, 468, 471);
+        twitter.flip(false, true);
+
+        facebook = new TextureRegion(texture, 520, 151, 477, 480);
+        facebook.flip(false, true);
         
         
         // Fonts
 
         mainFont = new BitmapFont(Gdx.files.internal("data/machinescript.fnt"));
-        mainFont.setScale(.1f, -.1f);
         
         
         // Sounds

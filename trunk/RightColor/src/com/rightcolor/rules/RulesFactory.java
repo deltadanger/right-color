@@ -1,7 +1,5 @@
 package com.rightcolor.rules;
 
-import helper.Utils;
-
 import java.util.HashMap;
 import java.util.Map;
 

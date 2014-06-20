@@ -6,11 +6,11 @@ public class ClickableZone {
     public static final int BUTTON_CLICK_ZONE_PADDING = 4;
     
     private Vector2 position = null;
-    private int radius = -1;
-    private int width = -1;
-    private int height = -1;
+    private float radius = -1;
+    private float width = -1;
+    private float height = -1;
     
-    public void update(int x, int y, int width, int height) {
+    public void update(float x, float y, float width, float height) {
         this.position = new Vector2(x, y);
         this.width = width;
         this.height = height;

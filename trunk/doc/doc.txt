@@ -1,0 +1,14 @@
+
+
+Build:
+/ Core
+/ Menu screen
+/ Gaming screen
+/ Game Over screen
+- Implement last mode
+- Define color range
+- Clean designs
+- Tutorials
+- Setup social medias
+
+
