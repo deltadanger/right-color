@@ -49,7 +49,7 @@ public class RulesLevel1 implements RulesSetFromLevel  {
     }
 
     @Override
-    public String getPreferencesKey() {
+    public String getLevelPreferencesKey() {
         return "Level1";
     }
 
@@ -60,4 +60,9 @@ public class RulesLevel1 implements RulesSetFromLevel  {
 
     @Override
     public void setNewTextColor() {}
+
+    @Override
+    public String getLevelName() {
+        return "Level 1";
+    }
 }

@@ -25,11 +25,6 @@ public class RulesModeSprint extends RulesBaseMode {
     }
 
     @Override
-    public String getPreferencesKey() {
-        return "Sprint";
-    }
-
-    @Override
     public GameMode getGameMode() {
         return GameMode.SPRINT;
     }

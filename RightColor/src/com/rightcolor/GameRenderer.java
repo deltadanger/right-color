@@ -2,12 +2,15 @@ package com.rightcolor;
 
 import helper.AssetLoader;
 import helper.ClickableZone;
+import helper.PreferenceKeysFactory;
 import helper.Utils;
+import helper.PreferenceKeysFactory.Preference;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont.HAlignment;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -33,8 +36,8 @@ public class GameRenderer {
     private static final float COLOR_POSITION_Y = 50;
     
     // Game Over screen positions
-    private static final float SCORE_POSITION_Y_FACTOR = 0.35f;
-    private static final float BEST_SCORE_POSITION_Y_FACTOR = 0.5f;
+    private static final float SCORE_POSITION_Y_FACTOR = 0.25f;
+    private static final float BEST_SCORE_POSITION_Y_FACTOR = 0.4f;
     private static final float SOCIAL_BUTTON_POSITION_Y_FACTOR = 0.6f;
     private static final int SOCIAL_BUTTON_SPACING = 15;
     private static final int SOCIAL_BUTTON_SIZE = 40;
@@ -42,6 +45,7 @@ public class GameRenderer {
     
     // Text sizes
     private static final float TEXT_SCALE_NORMAL = 0.1f;
+    private static final float TEXT_SCALE_BEST_SCORES = 0.08f;
     private static final float TEXT_SCALE_COLOR_NAME = 0.15f;
     private static final float TEXT_SCALE_TIME = 0.08f;
     private static final float TEXT_SCALE_SCORE = 0.08f;
@@ -153,7 +157,11 @@ public class GameRenderer {
         AssetLoader.mainFont.setScale(TEXT_SCALE_FINAL_SCORE, -TEXT_SCALE_FINAL_SCORE);
 
         drawText("Score: "+world.getCurrentRules().getScore(), Utils.GAME_WIDTH/2, true, gameHeight*SCORE_POSITION_Y_FACTOR, true);
-        drawText("Best Score: "+world.getCurrentRules().getScore(), Utils.GAME_WIDTH/2, true, gameHeight*BEST_SCORE_POSITION_Y_FACTOR, true);
+        String text = "Best Score for mode " + world.getCurrentRules().getGameMode().getText() +
+                " " + world.getCurrentRules().getLevelName() +
+                ": " + world.getPreferences().getInteger(PreferenceKeysFactory.getPreferencesKey(Preference.SCORE, world.getCurrentRules()));
+        
+        drawText(text, Utils.GAME_WIDTH/2, true, gameHeight*BEST_SCORE_POSITION_Y_FACTOR, true, Utils.GAME_WIDTH);
         
         AssetLoader.mainFont.setScale(TEXT_SCALE_NORMAL, -TEXT_SCALE_NORMAL);
 
@@ -217,7 +225,23 @@ public class GameRenderer {
 //            batcher.draw(AssetLoader.pixel, x, y, Utils.GAME_WIDTH/2, buttonHeight);
 //            button.update(x, y, Utils.GAME_WIDTH/2, buttonHeight);
             if (withText) {
-                drawText(button.getMode().toString(), x + Utils.GAME_WIDTH/4, true, y + buttonHeight/2, true);
+                drawText(button.getMode().getText(), x + Utils.GAME_WIDTH/4, true, y + buttonHeight/3, true);
+                
+                AssetLoader.mainFont.setScale(TEXT_SCALE_BEST_SCORES, -TEXT_SCALE_BEST_SCORES);
+                String keyLevel1 = PreferenceKeysFactory.getPreferencesKey(Preference.SCORE, button.getMode(), 1);
+                String keyLevel2 = PreferenceKeysFactory.getPreferencesKey(Preference.SCORE, button.getMode(), 2);
+                String keyLevel3 = PreferenceKeysFactory.getPreferencesKey(Preference.SCORE, button.getMode(), 3);
+                String keyLevel4 = PreferenceKeysFactory.getPreferencesKey(Preference.SCORE, button.getMode(), 4);
+                String text = "Bests: " +
+                        world.getPreferences().getInteger(keyLevel1) +
+                        " " +
+                        world.getPreferences().getInteger(keyLevel2) +
+                        " " +
+                        world.getPreferences().getInteger(keyLevel3) +
+                        " " +
+                        world.getPreferences().getInteger(keyLevel4);
+                drawText(text, x + Utils.GAME_WIDTH/4, true, y + buttonHeight*2/3, true);
+                AssetLoader.mainFont.setScale(TEXT_SCALE_NORMAL, -TEXT_SCALE_NORMAL);
             }
         }
         
@@ -225,12 +249,25 @@ public class GameRenderer {
     }
     
     private TextBounds drawText(String text, float x, boolean centerX, float y, boolean centerY) {
-        return drawText(text, COLOR_TEXT_DEFAULT, x, centerX, y, centerY);
+        return drawText(text, x, centerX, y, centerY, 0);
+    }
+    
+    private TextBounds drawText(String text, float x, boolean centerX, float y, boolean centerY, float wrap) {
+        return drawText(text, COLOR_TEXT_DEFAULT, x, centerX, y, centerY, wrap);
     }
     
     private TextBounds drawText(String text, Color c, float x, boolean centerX, float y, boolean centerY) {
+        return drawText(text, c, x, centerX, y, centerY, 0);
+    }
+    
+    private TextBounds drawText(String text, Color c, float x, boolean centerX, float y, boolean centerY, float wrap) {
         AssetLoader.mainFont.setColor(c);
-        TextBounds b = AssetLoader.mainFont.getBounds(text);
+        TextBounds b;
+        if (wrap > 0) {
+            b = AssetLoader.mainFont.getWrappedBounds(text, wrap);
+        } else {
+            b = AssetLoader.mainFont.getBounds(text);
+        }
         
         if (centerX) {
             x -= b.width/2;
@@ -239,7 +276,11 @@ public class GameRenderer {
             y += b.height/2;
         }
         
-        AssetLoader.mainFont.draw(batcher, text, x, y);
+        if (wrap > 0) {
+            AssetLoader.mainFont.drawWrapped(batcher, text, x, y, wrap, HAlignment.CENTER);
+        } else {
+            AssetLoader.mainFont.draw(batcher, text, x, y);
+        }
         return b;
     }
     

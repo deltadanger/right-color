@@ -2,6 +2,8 @@ package com.rightcolor;
 
 import helper.Callback;
 import helper.ClickableZone;
+import helper.PreferenceKeysFactory;
+import helper.PreferenceKeysFactory.Preference;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
@@ -14,8 +16,6 @@ import com.rightcolor.rules.RulesSet;
 public class GameWorld {
     
     public static final String PREFERENCES_NAME = "com.rightcolor";
-    public static final String PREFERENCE_KEY_SCORE = "keyScore";
-    public static final String PREFERENCE_KEY_LEVEL = "keyLevel";
     
     public static enum GameState {
         MENU,
@@ -24,17 +24,22 @@ public class GameWorld {
     }
     
     public static enum GameMode {
-        SPRINT("Sprint"), // Validate X(30) as fast as possible
-        MARATHON("Marathon"), // Timer resets to X(10) every Y(15) validated 
-        FASTER("Faster 'n faster"), // Decreasing timer to validate X(5)
-        BLAH("BLAH"); // ???? Validate as many as possible in X(20) seconds
+        SPRINT("Sprint", "Sprint"), // Validate X(30) as fast as possible
+        MARATHON("Marathon", "Marathon"), // Timer resets to X(10) every Y(15) validated 
+        FASTER("Faster 'n faster", "Faster"), // Decreasing timer to validate X(5)
+        BLAH("BLAH", "Blah"); // ???? Validate as many as possible in X(20) seconds
         
         private String text;
-        private GameMode(String text) {
+        private String key;
+        private GameMode(String text, String key) {
             this.text = text;
+            this.key = key;
         }
-        public String toString() {
+        public String getText() {
             return text;
+        }
+        public String getKey() {
+            return key;
         }
     }
     
@@ -70,17 +75,16 @@ public class GameWorld {
     	
         initialisePreferences();
         
-//        resetGame(new RulesClassic());
         currentState = GameState.MENU;
         rulesFactory.assignInitialColorToButtons(topLeft, topRight, bottomLeft, bottomRight);
-//        currentState = GameState.RUNNING;
     }
     
     private void initialisePreferences() {
         boolean flush = false;
         preferences = Gdx.app.getPreferences(PREFERENCES_NAME);
-        if (!preferences.contains(PREFERENCE_KEY_LEVEL)) {
-        	preferences.putInteger(PREFERENCE_KEY_LEVEL, 1);
+        String keyLevel = PreferenceKeysFactory.getPreferencesKey(Preference.LEVEL);
+        if (!preferences.contains(keyLevel)) {
+        	preferences.putInteger(keyLevel, 1);
             flush = true;
         }
 
@@ -88,7 +92,7 @@ public class GameWorld {
             preferences.flush();
         }
 
-        level = preferences.getInteger(PREFERENCE_KEY_LEVEL);
+        level = preferences.getInteger(keyLevel);
     }
     
     public void resetGame(RulesSet ruleSet) {
@@ -134,7 +138,7 @@ public class GameWorld {
     
     private void manageScore() {
         int score = currentRules.getScore();
-        String key = PREFERENCE_KEY_SCORE+currentRules.getPreferencesKey();
+        String key = PreferenceKeysFactory.getPreferencesKey(Preference.SCORE, currentRules);
         int best = preferences.getInteger(key, 0);
         
         if (score > best) {
@@ -216,7 +220,7 @@ public class GameWorld {
         }
         
         if (level != 0) {
-            preferences.putInteger(PREFERENCE_KEY_LEVEL, level);
+            preferences.putInteger(PreferenceKeysFactory.getPreferencesKey(Preference.LEVEL), level);
             preferences.flush();
             this.level = level;
         }

@@ -22,7 +22,5 @@ public interface RulesSetFromMode extends EventDispatcher {
     
     public Color getTargetColor();
 
-    public String getPreferencesKey();
-
     public GameMode getGameMode();
 }

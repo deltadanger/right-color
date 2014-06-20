@@ -23,7 +23,7 @@ public class RulesLevel4 implements RulesSetFromLevel  {
     }
 
     @Override
-    public String getPreferencesKey() {
+    public String getLevelPreferencesKey() {
         return "Level4";
     }
 
@@ -35,5 +35,10 @@ public class RulesLevel4 implements RulesSetFromLevel  {
     @Override
     public void setNewTextColor() {
         level3instance.setNewTextColor();
+    }
+
+    @Override
+    public String getLevelName() {
+        return "Level 4";
     }
 }

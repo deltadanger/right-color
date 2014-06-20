@@ -14,5 +14,7 @@ public interface RulesSetFromLevel {
     public void setNewTextColor();
     public Color getTextColor();
 
-    public String getPreferencesKey();
+    public String getLevelPreferencesKey();
+    
+    public String getLevelName();
 }

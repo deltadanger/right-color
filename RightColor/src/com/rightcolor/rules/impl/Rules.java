@@ -15,13 +15,9 @@ public class Rules implements RulesSet, EventDispatcher {
     private RulesSetFromLevel rulesFromLevel;
     private RulesSetFromMode rulesFromMode;
     
-    private String preferenceKey;
-    
     public Rules(RulesSetFromLevel rulesFromLevel, RulesSetFromMode rulesFromMode) {
         this.rulesFromLevel = rulesFromLevel;
         this.rulesFromMode = rulesFromMode;
-        
-        preferenceKey = "PreferencesRules" + rulesFromLevel.getPreferencesKey() + rulesFromMode.getPreferencesKey();
     }
 
     @Override
@@ -45,6 +41,16 @@ public class Rules implements RulesSet, EventDispatcher {
     @Override
     public Color getTextColor() {
         return rulesFromLevel.getTextColor();
+    }
+
+    @Override
+    public String getLevelPreferencesKey() {
+        return rulesFromLevel.getLevelPreferencesKey();
+    }
+
+    @Override
+    public String getLevelName() {
+        return rulesFromLevel.getLevelName();
     }
 
     @Override
@@ -80,11 +86,6 @@ public class Rules implements RulesSet, EventDispatcher {
     @Override
     public Color getTargetColor() {
         return rulesFromMode.getTargetColor();
-    }
-
-    @Override
-    public String getPreferencesKey() {
-        return preferenceKey;
     }
 
     @Override
