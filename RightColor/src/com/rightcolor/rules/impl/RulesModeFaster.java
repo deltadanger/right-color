@@ -6,9 +6,9 @@ import com.rightcolor.rules.RulesSet;
 
 public class RulesModeFaster extends RulesBaseMode {
 
-    private final int NUMBER_TO_VALIDATE = 5;
-    private final float TIMER_DECREASE = 0.1f;
-    private final float START_TOTAL_TIME = 5f;
+    private final int NUMBER_TO_VALIDATE = 1;
+    private final float TIMER_DECREASE = 0.05f;
+    private final float START_TOTAL_TIME = 1f;
     
     private float currentTotalTime = START_TOTAL_TIME;
     

@@ -47,6 +47,11 @@ public class GameWorld {
     private ClickableZone level2 = new ClickableZone();
     private ClickableZone level3 = new ClickableZone();
     private ClickableZone level4 = new ClickableZone();
+    
+    private ClickableZone buttonMenu= new ClickableZone();
+    private ClickableZone buttonAgain = new ClickableZone();
+    private ClickableZone buttonTwitter= new ClickableZone();
+    private ClickableZone buttonFacebook = new ClickableZone();
 	
     private ColorButton topLeft = new ColorButton(GameMode.SPRINT);
     private ColorButton topRight = new ColorButton(GameMode.MARATHON);
@@ -111,6 +116,7 @@ public class GameWorld {
         
         @Override
         public Object call() {
+            manageScore();
             GameWorld.this.currentState = GameState.GAME_OVER;
             return null;
         }
@@ -120,10 +126,22 @@ public class GameWorld {
         
         @Override
         public Object call() {
+            manageScore();
             GameWorld.this.currentState = GameState.GAME_OVER;
             return null;
         }
     };
+    
+    private void manageScore() {
+        int score = currentRules.getScore();
+        String key = PREFERENCE_KEY_SCORE+currentRules.getPreferencesKey();
+        int best = preferences.getInteger(key, 0);
+        
+        if (score > best) {
+            preferences.putInteger(key, score);
+            preferences.flush();
+        }
+    }
 
     public void update(float delta) {
     	if (!GameState.RUNNING.equals(currentState)) {
@@ -220,14 +238,25 @@ public class GameWorld {
     }
     
     private void handleClickOnGameOver(int x, int y) {
-        resetGame(rulesFactory.getRulesSet(currentRules.getGameMode(), level));
-        this.currentState = GameState.RUNNING;
+        if (buttonMenu.isInside(x, y)) {
+            this.currentState = GameState.MENU;
+            
+        } else if (buttonAgain.isInside(x, y)) {
+            resetGame(rulesFactory.getRulesSet(currentRules.getGameMode(), level));
+            this.currentState = GameState.RUNNING;
+            
+        } else if (buttonTwitter.isInside(x, y)) {
+            // update status
+            
+        } else if (buttonFacebook.isInside(x, y)) {
+            // update status
+        }
     }
     
     
-    public void updateLevelButton(int level, int x, int y, int width, int height) {
+    public ClickableZone getLevelButton(int level) {
         ClickableZone[] buttons = new ClickableZone[]{level1, level2, level3, level4};
-        buttons[level-1].update(x, y, width, height);
+        return buttons[level-1];
     }
     
     public ColorButton getTopLeft() {
@@ -246,6 +275,22 @@ public class GameWorld {
         return bottomRight;
     }
     
+    public ClickableZone getButtonMenu() {
+        return buttonMenu;
+    }
+    
+    public ClickableZone getButtonAgain() {
+        return buttonAgain;
+    }
+    
+    public ClickableZone getButtonTwitter() {
+        return buttonTwitter;
+    }
+    
+    public ClickableZone getButtonFacebook() {
+        return buttonFacebook;
+    }
+    
     public GameState getCurrentState() {
         return currentState;
     }
@@ -256,5 +301,9 @@ public class GameWorld {
     
     public int getLevel() {
         return level;
+    }
+    
+    public Preferences getPreferences() {
+        return preferences;
     }
 }

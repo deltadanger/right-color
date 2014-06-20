@@ -21,7 +21,7 @@ public class Rules implements RulesSet, EventDispatcher {
         this.rulesFromLevel = rulesFromLevel;
         this.rulesFromMode = rulesFromMode;
         
-        preferenceKey = "preferencesRules" + rulesFromLevel.getPreferencesKey() + rulesFromMode.getPreferencesKey();
+        preferenceKey = "PreferencesRules" + rulesFromLevel.getPreferencesKey() + rulesFromMode.getPreferencesKey();
     }
 
     @Override
