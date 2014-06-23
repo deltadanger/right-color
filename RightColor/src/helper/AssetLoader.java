@@ -34,10 +34,16 @@ public class AssetLoader {
         textColor = new TextureRegion(texture, 1, 1, 300, 100);
         textColor.flip(false, true);
         
-        levelButton = new TextureRegion(texture, 320, 68, 100, 50);
+        /*
+        Level button colors:
+        1fd030
+        a4ffad
+        Border: 0bac1a
+        */
+        levelButton = new TextureRegion(texture, 310, 2, 270, 140);
         levelButton.flip(false, true);
 
-        levelButtonActive = new TextureRegion(texture, 320, 13, 100, 50);
+        levelButtonActive = new TextureRegion(texture, 630, 2, 270, 140);
         levelButtonActive.flip(false, true);
 
         twitter = new TextureRegion(texture, 19, 151, 468, 471);

@@ -5,9 +5,10 @@ Build:
 / Menu screen
 / Gaming screen
 / Game Over screen
-- Implement last mode
-- Define color range
+/ Implement last mode
+/ Define color range
 - Clean designs
+    - Icon
 - Tutorials
 - Setup social medias
 

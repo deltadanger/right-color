@@ -27,7 +27,7 @@ public class GameWorld {
         SPRINT("Sprint", "Sprint"), // Validate X(30) as fast as possible
         MARATHON("Marathon", "Marathon"), // Timer resets to X(10) every Y(15) validated 
         FASTER("Faster 'n faster", "Faster"), // Decreasing timer to validate X(5)
-        BLAH("BLAH", "Blah"); // ???? Validate as many as possible in X(20) seconds
+        EASYPEASY("Easy-Peasy", "EasyPeasy"); // Validate as many as possible, 3 seconds per validation
         
         private String text;
         private String key;
@@ -58,9 +58,9 @@ public class GameWorld {
     private ClickableZone buttonTwitter= new ClickableZone();
     private ClickableZone buttonFacebook = new ClickableZone();
 	
-    private ColorButton topLeft = new ColorButton(GameMode.SPRINT);
+    private ColorButton topLeft = new ColorButton(GameMode.EASYPEASY);
     private ColorButton topRight = new ColorButton(GameMode.MARATHON);
-    private ColorButton bottomLeft = new ColorButton(GameMode.FASTER);
+    private ColorButton bottomLeft = new ColorButton(GameMode.SPRINT);
     private ColorButton bottomRight = new ColorButton(GameMode.FASTER);
     
     private RulesSet currentRules;
@@ -203,7 +203,7 @@ public class GameWorld {
         }
         
         if (button != null) {
-            resetGame(rulesFactory.getRulesSet(button.getMode(), level));
+            resetGame(rulesFactory.getNewRulesSet(button.getMode(), level));
             currentState = GameState.RUNNING;
         }
         
@@ -246,7 +246,7 @@ public class GameWorld {
             this.currentState = GameState.MENU;
             
         } else if (buttonAgain.isInside(x, y)) {
-            resetGame(rulesFactory.getRulesSet(currentRules.getGameMode(), level));
+            resetGame(rulesFactory.getNewRulesSet(currentRules.getGameMode(), level));
             this.currentState = GameState.RUNNING;
             
         } else if (buttonTwitter.isInside(x, y)) {

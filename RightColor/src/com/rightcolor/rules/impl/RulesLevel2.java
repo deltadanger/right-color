@@ -10,14 +10,14 @@ public class RulesLevel2 implements RulesSetFromLevel  {
     public Color[] assignInitialColorToButtons(ColorButton topLeft,
             ColorButton topRight, ColorButton bottomLeft,
             ColorButton bottomRight) {
-        return RulesLevel1.assignRandomColorToButtons(topLeft, topRight, bottomLeft, bottomRight);
+        return RulesHelper.assignRandomColorToButtons(topLeft, topRight, bottomLeft, bottomRight);
     }
 
     @Override
     public Color[] assignColorToButtons(ColorButton topLeft,
             ColorButton topRight, ColorButton bottomLeft,
             ColorButton bottomRight) {
-        return RulesLevel1.assignRandomColorToButtons(topLeft, topRight, bottomLeft, bottomRight);
+        return RulesHelper.assignRandomColorToButtons(topLeft, topRight, bottomLeft, bottomRight);
     }
 
     @Override
