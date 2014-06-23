@@ -11,18 +11,16 @@ public interface RulesSet extends RulesSetFromLevel, RulesSetFromMode {
     public static final String EVENT_GAME_END_VICTORY = "eventGameEndVictory";
     public static final String EVENT_GAME_END_DEFEAT = "eventGameEndDefeat";
     
-    public static final Color[] AVAILABLE_COLORS = {
-        Color.BLUE.sub(0.1f, 0.1f, 0.1f, 0),
-        Color.CYAN.sub(0.1f, 0.1f, 0.1f, 0),
-        Color.GREEN.sub(0.1f, 0.1f, 0.1f, 0),
-        Color.PINK.sub(0.1f, 0.1f, 0.1f, 0)
-    };
-    
     @SuppressWarnings("serial")
-    public static final Map<Color, String> COLOR_NAME = new HashMap<Color, String>(){{
-        this.put(AVAILABLE_COLORS[0], "Blue");
-        this.put(AVAILABLE_COLORS[1], "Cyan");
-        this.put(AVAILABLE_COLORS[2], "Green");
-        this.put(AVAILABLE_COLORS[3], "Pink");
+    public static final Map<Color, String> AVAILABLE_COLORS = new HashMap<Color, String>(){{
+        this.put(Color.valueOf("D43131FF"), "Red");
+        this.put(Color.valueOf("D967E0FF"), "Pink");
+        this.put(Color.valueOf("495BE3FF"), "Blue");
+        this.put(Color.valueOf("38D047FF"), "Green");
+        this.put(Color.valueOf("E6E32EFF"), "Yellow");
+        this.put(Color.valueOf("EFEFEFFF"), "White");
+        this.put(Color.valueOf("645209FF"), "Brown");
+        this.put(Color.valueOf("F1973FFF"), "Orange");
+        this.put(Color.valueOf("B5B5B5FF"), "Gray");
     }};
 }

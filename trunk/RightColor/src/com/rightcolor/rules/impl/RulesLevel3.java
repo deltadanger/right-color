@@ -31,7 +31,7 @@ public class RulesLevel3 implements RulesSetFromLevel  {
 
     @Override
     public void setNewTextColor() {
-        textColor = Utils.getRandomColor();
+        textColor = Utils.getRandomColor(RulesHelper.getLastRandomColors());
     }
     
     @Override
