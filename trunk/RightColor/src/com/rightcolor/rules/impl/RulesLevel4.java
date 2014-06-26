@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.rightcolor.gameobjects.ColorButton;
 import com.rightcolor.rules.RulesSetFromLevel;
 
-public class RulesLevel4 implements RulesSetFromLevel  {
+class RulesLevel4 implements RulesSetFromLevel  {
     
     RulesLevel3 level3instance = new RulesLevel3();
 

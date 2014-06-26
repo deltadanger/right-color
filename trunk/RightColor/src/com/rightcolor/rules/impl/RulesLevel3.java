@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.rightcolor.gameobjects.ColorButton;
 import com.rightcolor.rules.RulesSetFromLevel;
 
-public class RulesLevel3 implements RulesSetFromLevel  {
+class RulesLevel3 implements RulesSetFromLevel  {
     
     private Color textColor = Color.WHITE;
 

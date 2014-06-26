@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.rightcolor.rules.RulesSet;
 import com.rightcolor.rules.RulesSetFromMode;
 
-public abstract class RulesBaseMode extends EventDispatcherImpl implements RulesSetFromMode  {
+abstract class RulesBaseMode extends EventDispatcherImpl implements RulesSetFromMode  {
 
     protected float time = getTotalTime();
     protected int score = 0;

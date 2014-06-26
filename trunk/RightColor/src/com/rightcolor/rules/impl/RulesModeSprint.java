@@ -4,7 +4,7 @@ import com.rightcolor.GameWorld.GameMode;
 import com.rightcolor.gameobjects.ColorButton;
 import com.rightcolor.rules.RulesSet;
 
-public class RulesModeSprint extends RulesBaseMode {
+class RulesModeSprint extends RulesBaseMode {
 
     private final float TOTAL_TIME = 20f;
     

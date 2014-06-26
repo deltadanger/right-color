@@ -10,24 +10,58 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Color;
 import com.rightcolor.comunication.ISocialNetworkAPI;
 import com.rightcolor.gameobjects.ColorButton;
-import com.rightcolor.rules.RulesFactory;
 import com.rightcolor.rules.RulesSet;
+import com.rightcolor.rules.impl.RulesFactory;
 
 public class GameWorld {
     
     public static final String PREFERENCES_NAME = "com.rightcolor";
+    public static final float MIN_TIME_TUTORIAL_DISPLAY = 1f;
     
     public static enum GameState {
         MENU,
+        TUTORIAL,
     	RUNNING,
     	GAME_OVER
     }
     
+    public static enum TutorialState {
+//        LEVEL_1("Level1"),
+        LEVEL_2("Level2"),
+        LEVEL_3("Level3"),
+        LEVEL_4("Level4"),
+        MODE_EASYPEASY("ModeEasyPeasy"),
+        MODE_MARATHON("ModeMarathon"),
+        MODE_SPRINT("ModeSprint"),
+        MODE_FASTER("ModeFaster");
+
+        private String key;
+        private TutorialState(String key) {
+            this.key = key;
+        }
+        public String getKey() {
+            return key;
+        }
+        public static TutorialState forMode(GameMode mode) {
+            switch (mode) {
+            case EASYPEASY:
+                return MODE_EASYPEASY;
+            case MARATHON:
+                return MODE_MARATHON;
+            case FASTER:
+                return MODE_FASTER;
+            case SPRINT:
+                return MODE_SPRINT;
+            }
+            return null;
+        }
+    }
+    
     public static enum GameMode {
-        SPRINT("Sprint", "Sprint"), // Validate X(30) as fast as possible
-        MARATHON("Marathon", "Marathon"), // Timer resets to X(10) every Y(15) validated 
-        FASTER("Faster 'n faster", "Faster"), // Decreasing timer to validate X(5)
-        EASYPEASY("Easy-Peasy", "EasyPeasy"); // Validate as many as possible, 3 seconds per validation
+        EASYPEASY("Easy Peasy", "EasyPeasy"), // Validate as many as possible, 5 seconds per validation
+        MARATHON("Marathon", "Marathon"), // Timer resets to 10s every 10 validated
+        SPRINT("Sprint", "Sprint"), // Validate as many as possible in 20s 
+        FASTER("Faster 'n faster", "Faster"); // Decreasing timer to validate 1
         
         private String text;
         private String key;
@@ -63,8 +97,11 @@ public class GameWorld {
     private ColorButton bottomLeft = new ColorButton(GameMode.SPRINT);
     private ColorButton bottomRight = new ColorButton(GameMode.FASTER);
     
+    private float elapsedTime = 0;
+    
     private RulesSet currentRules;
     private RulesFactory rulesFactory = new RulesFactory();
+    private TutorialState currentTutorial = null;
     
     private ISocialNetworkAPI facebook;
     private ISocialNetworkAPI twitter;
@@ -74,9 +111,18 @@ public class GameWorld {
     	this.twitter = twitter;
     	
         initialisePreferences();
+        dev();
         
         currentState = GameState.MENU;
         rulesFactory.assignInitialColorToButtons(topLeft, topRight, bottomLeft, bottomRight);
+    }
+    
+    private void dev() {
+        // TODO: remove this
+        for (TutorialState state : TutorialState.values()) {
+            String key = PreferenceKeysFactory.getPreferencesKey(state);
+            preferences.remove(key);
+        }
     }
     
     private void initialisePreferences() {
@@ -91,7 +137,7 @@ public class GameWorld {
         if (flush) {
             preferences.flush();
         }
-
+        
         level = preferences.getInteger(keyLevel);
     }
     
@@ -148,6 +194,7 @@ public class GameWorld {
     }
 
     public void update(float delta) {
+        elapsedTime += delta;
     	if (!GameState.RUNNING.equals(currentState)) {
     		return;
     	}
@@ -165,7 +212,8 @@ public class GameWorld {
         case GAME_OVER:
             currentState = GameState.MENU;
             break;
-            
+
+        case TUTORIAL:
         case RUNNING:
             currentState = GameState.GAME_OVER;
             break;
@@ -179,8 +227,23 @@ public class GameWorld {
 	        handleClickOnMenu(x, y);
             break;
             
-	    case GAME_OVER:
-	        handleClickOnGameOver(x, y);
+        case GAME_OVER:
+            handleClickOnGameOver(x, y);
+            break;
+            
+        case TUTORIAL:
+            if (elapsedTime > MIN_TIME_TUTORIAL_DISPLAY) {
+                switch (currentTutorial) {
+                case LEVEL_2:
+                case LEVEL_3:
+                case LEVEL_4:
+                    currentState = GameState.MENU;
+                    break;
+                default:
+                    currentState = GameState.RUNNING;
+                    break;
+                }
+            }
             break;
             
 	    case RUNNING:
@@ -190,6 +253,8 @@ public class GameWorld {
     }
     
     private void handleClickOnMenu(int x, int y) {
+        TutorialState tuto = null;
+        
         // Game mode selection
         ColorButton button = null;
         if (topLeft.isInside(x, y)) {
@@ -203,6 +268,7 @@ public class GameWorld {
         }
         
         if (button != null) {
+            tuto = TutorialState.forMode(button.getMode());
             resetGame(rulesFactory.getNewRulesSet(button.getMode(), level));
             currentState = GameState.RUNNING;
         }
@@ -212,10 +278,13 @@ public class GameWorld {
         if (level1.isInside(x, y)) {
             level = 1;
         } else if (level2.isInside(x, y)) {
+            tuto = TutorialState.LEVEL_2;
             level = 2;
         } else if (level3.isInside(x, y)) {
+            tuto = TutorialState.LEVEL_3;
             level = 3;
         } else if (level4.isInside(x, y)) {
+            tuto = TutorialState.LEVEL_4;
             level = 4;
         }
         
@@ -224,8 +293,27 @@ public class GameWorld {
             preferences.flush();
             this.level = level;
         }
+        
+        if (tuto != null && !wasTutoViewed(tuto)) {
+            setTutorialMode(tuto);
+        }
     }
     
+    private void setTutorialMode(TutorialState state) {
+        String key = PreferenceKeysFactory.getPreferencesKey(state);
+        preferences.putBoolean(key, true);
+        preferences.flush();
+        
+        currentState = GameState.TUTORIAL;
+        currentTutorial = state;
+        elapsedTime = 0;
+    }
+
+    private boolean wasTutoViewed(TutorialState state) {
+        String key = PreferenceKeysFactory.getPreferencesKey(state);
+        return preferences.contains(key);
+    }
+
     private void handleClickOnRunning(int x, int y) {
         if (topLeft.isInside(x, y)) {
             currentRules.buttonClicked(topLeft);
@@ -301,6 +389,10 @@ public class GameWorld {
     
     public RulesSet getCurrentRules() {
         return currentRules;
+    }
+    
+    public TutorialState getCurrentTutorial() {
+        return currentTutorial;
     }
     
     public int getLevel() {

@@ -4,7 +4,7 @@ import com.rightcolor.GameWorld.GameMode;
 import com.rightcolor.gameobjects.ColorButton;
 import com.rightcolor.rules.RulesSet;
 
-public class RulesModeMarathon extends RulesBaseMode {
+class RulesModeMarathon extends RulesBaseMode {
 
     private final float TOTAL_TIME = 10f;
     private final int NUMBER_TO_VALIDATE = 10;

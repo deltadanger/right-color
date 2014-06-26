@@ -10,6 +10,7 @@ Build:
 - Clean designs
     - Icon
 - Tutorials
+- Add pre-running state
 - Setup social medias
 
 
