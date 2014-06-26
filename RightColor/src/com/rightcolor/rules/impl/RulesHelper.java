@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.graphics.Color;
 import com.rightcolor.gameobjects.ColorButton;
 
-public class RulesHelper {
+class RulesHelper {
     private static Color[] lastRandomColors = new Color[]{};
     public static Color[] getLastRandomColors() {
         return lastRandomColors;

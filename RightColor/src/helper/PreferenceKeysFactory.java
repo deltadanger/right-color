@@ -1,12 +1,10 @@
 package helper;
 
 import com.rightcolor.GameWorld.GameMode;
+import com.rightcolor.GameWorld.TutorialState;
 import com.rightcolor.rules.RulesSet;
 import com.rightcolor.rules.RulesSetFromLevel;
-import com.rightcolor.rules.impl.RulesLevel1;
-import com.rightcolor.rules.impl.RulesLevel2;
-import com.rightcolor.rules.impl.RulesLevel3;
-import com.rightcolor.rules.impl.RulesLevel4;
+import com.rightcolor.rules.impl.RulesFactory;
 
 public class PreferenceKeysFactory {
     
@@ -36,12 +34,7 @@ public class PreferenceKeysFactory {
     }
     
     public static String getPreferencesKey(Preference pref, GameMode mode, int level) {
-        RulesSetFromLevel levelRules = new RulesSetFromLevel[]{
-                new RulesLevel1(),
-                new RulesLevel2(),
-                new RulesLevel3(),
-                new RulesLevel4()
-        }[level-1];
+        RulesSetFromLevel levelRules = new RulesFactory().getLevelRules()[level-1];
         
         switch (pref) {
             case SCORE:
@@ -49,5 +42,9 @@ public class PreferenceKeysFactory {
             default:
                 return "";
         }
+    }
+    
+    public static String getPreferencesKey(TutorialState tuto) {
+        return "keyTutorial" + tuto.getKey();
     }
 }

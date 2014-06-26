@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.rightcolor.gameobjects.ColorButton;
 import com.rightcolor.rules.RulesSetFromLevel;
 
-public class RulesLevel2 implements RulesSetFromLevel  {
+class RulesLevel2 implements RulesSetFromLevel  {
 
     @Override
     public Color[] assignInitialColorToButtons(ColorButton topLeft,

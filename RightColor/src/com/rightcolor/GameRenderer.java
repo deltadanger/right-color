@@ -16,6 +16,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.rightcolor.gameobjects.ColorButton;
 import com.rightcolor.rules.RulesSet;
+import com.rightcolor.tutorial.TutorialContent;
+import com.rightcolor.tutorial.TutorialContentFactory;
 
 public class GameRenderer {
     
@@ -37,7 +39,7 @@ public class GameRenderer {
     
     // Game Over screen positions
     private static final float SCORE_POSITION_Y_FACTOR = 0.25f;
-    private static final float BEST_SCORE_POSITION_Y_FACTOR = 0.4f;
+    private static final float BEST_SCORE_POSITION_Y_FACTOR = 0.35f;
     private static final float SOCIAL_BUTTON_POSITION_Y_FACTOR = 0.6f;
     private static final int SOCIAL_BUTTON_SPACING = 15;
     private static final int SOCIAL_BUTTON_SIZE = 40;
@@ -58,6 +60,7 @@ public class GameRenderer {
     private static final Color COLOR_TEXT_DEFAULT = Color.WHITE;
     private static final Color NAVIGATION_BUTTON_COLOR = Color.WHITE;
     private static final Color BUTTON_TEXT_COLOR = Color.valueOf("D2D2D2FF");
+    private static final Color COLOR_SCREEN_DIM = Color.valueOf("0000007F");
 
     private GameWorld world;
     private OrthographicCamera cam;
@@ -90,6 +93,9 @@ public class GameRenderer {
         case MENU:
             renderMenu();
             break;
+        case TUTORIAL:
+            renderTutorial();
+            break;
         case RUNNING:
             renderRunning();
             break;
@@ -100,7 +106,7 @@ public class GameRenderer {
         
         batcher.end();
     }
-    
+
     private void renderMenu() {
         TextBounds b;
         int availableSpace = draw4buttons(true);
@@ -152,17 +158,41 @@ public class GameRenderer {
         AssetLoader.mainFont.setScale(TEXT_SCALE_NORMAL, -TEXT_SCALE_NORMAL);
     }
     
+    private void renderTutorial() {
+        switch (world.getCurrentTutorial()) {
+        case LEVEL_2:
+        case LEVEL_3:
+        case LEVEL_4:
+            renderMenu();
+            break;
+        default:
+            renderRunning();
+            break;
+        }
+
+        
+        batcher.setColor(COLOR_SCREEN_DIM);
+        batcher.draw(AssetLoader.pixel, 0, 0, Utils.GAME_WIDTH, gameHeight);
+        
+        
+        TutorialContent content = new TutorialContentFactory().getTutorialContent(world.getCurrentTutorial());
+        content.drawTutorialContent(batcher);
+    }
+    
     private void renderGameOver() {
         drawTitle();
         
         AssetLoader.mainFont.setScale(TEXT_SCALE_FINAL_SCORE, -TEXT_SCALE_FINAL_SCORE);
 
         drawText("Score: "+world.getCurrentRules().getScore(), Utils.GAME_WIDTH/2, true, gameHeight*SCORE_POSITION_Y_FACTOR, true);
-        String text = "Best Score for mode " + world.getCurrentRules().getGameMode().getText() +
-                " " + world.getCurrentRules().getLevelName() +
-                ": " + world.getPreferences().getInteger(PreferenceKeysFactory.getPreferencesKey(Preference.SCORE, world.getCurrentRules()));
-        
-        drawText(text, Utils.GAME_WIDTH/2, true, gameHeight*BEST_SCORE_POSITION_Y_FACTOR, true, Utils.GAME_WIDTH);
+//        String text = "Best Score\n(" + world.getCurrentRules().getGameMode().getText() +
+//                ", " + world.getCurrentRules().getLevelName() +
+//                "):\n" + world.getPreferences().getInteger(PreferenceKeysFactory.getPreferencesKey(Preference.SCORE, world.getCurrentRules()));
+//        
+//        drawText(text, Utils.GAME_WIDTH/2, true, gameHeight*BEST_SCORE_POSITION_Y_FACTOR, false, Utils.GAME_WIDTH);
+//        
+        String text = "Best Score: " + world.getPreferences().getInteger(PreferenceKeysFactory.getPreferencesKey(Preference.SCORE, world.getCurrentRules()));
+        drawText(text, Utils.GAME_WIDTH/2, true, gameHeight*BEST_SCORE_POSITION_Y_FACTOR+20, true);
         
         AssetLoader.mainFont.setScale(TEXT_SCALE_NORMAL, -TEXT_SCALE_NORMAL);
 
@@ -274,11 +304,12 @@ public class GameRenderer {
             x -= b.width/2;
         }
         if (centerY) {
-            y += b.height/2;
+            y += b.height/2; // b.height < 0
         }
         
         if (wrap > 0) {
             AssetLoader.mainFont.drawWrapped(batcher, text, x, y, wrap, HAlignment.CENTER);
+//            AssetLoader.mainFont.drawWrapped(batcher, text, x, y, wrap);
         } else {
             AssetLoader.mainFont.draw(batcher, text, x, y);
         }

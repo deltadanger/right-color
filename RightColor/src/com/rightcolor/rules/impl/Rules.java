@@ -10,7 +10,7 @@ import com.rightcolor.rules.RulesSet;
 import com.rightcolor.rules.RulesSetFromLevel;
 import com.rightcolor.rules.RulesSetFromMode;
 
-public class Rules implements RulesSet, EventDispatcher {
+class Rules implements RulesSet, EventDispatcher {
 
     private RulesSetFromLevel rulesFromLevel;
     private RulesSetFromMode rulesFromMode;

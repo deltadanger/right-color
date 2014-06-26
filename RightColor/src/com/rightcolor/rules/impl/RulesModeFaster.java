@@ -4,7 +4,7 @@ import com.rightcolor.GameWorld.GameMode;
 import com.rightcolor.gameobjects.ColorButton;
 import com.rightcolor.rules.RulesSet;
 
-public class RulesModeFaster extends RulesBaseMode {
+class RulesModeFaster extends RulesBaseMode {
 
     private final int NUMBER_TO_VALIDATE = 1;
     private final float TIMER_DECREASE = 0.05f;

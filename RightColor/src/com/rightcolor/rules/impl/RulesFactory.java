@@ -1,4 +1,4 @@
-package com.rightcolor.rules;
+package com.rightcolor.rules.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,15 +7,9 @@ import java.util.Map;
 
 import com.rightcolor.GameWorld.GameMode;
 import com.rightcolor.gameobjects.ColorButton;
-import com.rightcolor.rules.impl.Rules;
-import com.rightcolor.rules.impl.RulesLevel1;
-import com.rightcolor.rules.impl.RulesLevel2;
-import com.rightcolor.rules.impl.RulesLevel3;
-import com.rightcolor.rules.impl.RulesLevel4;
-import com.rightcolor.rules.impl.RulesModeEasyPeasy;
-import com.rightcolor.rules.impl.RulesModeFaster;
-import com.rightcolor.rules.impl.RulesModeMarathon;
-import com.rightcolor.rules.impl.RulesModeSprint;
+import com.rightcolor.rules.RulesSet;
+import com.rightcolor.rules.RulesSetFromLevel;
+import com.rightcolor.rules.RulesSetFromMode;
 
 public class RulesFactory {
     
@@ -54,6 +48,15 @@ public class RulesFactory {
             ColorButton bottomRight) {
         
         new RulesLevel2().assignColorToButtons(topLeft, topRight, bottomLeft, bottomRight);
+    }
+    
+    public RulesSetFromLevel[] getLevelRules() {
+        return new RulesSetFromLevel[]{
+                new RulesLevel1(),
+                new RulesLevel2(),
+                new RulesLevel3(),
+                new RulesLevel4()
+        };
     }
     
     private RulesSetFromMode getRulesSetForMode(GameMode mode) throws InstantiationException, IllegalAccessException {
