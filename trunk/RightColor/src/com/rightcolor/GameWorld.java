@@ -21,7 +21,8 @@ public class GameWorld {
     public static enum GameState {
         MENU,
         TUTORIAL,
-    	RUNNING,
+        PRERUNNING,
+        RUNNING,
     	GAME_OVER
     }
     
@@ -214,8 +215,22 @@ public class GameWorld {
             break;
 
         case TUTORIAL:
+            if (elapsedTime > MIN_TIME_TUTORIAL_DISPLAY) {
+                switch (currentTutorial) {
+                case LEVEL_2:
+                case LEVEL_3:
+                case LEVEL_4:
+                    currentState = GameState.MENU;
+                    break;
+                default:
+                    currentState = GameState.PRERUNNING;
+                    break;
+                }
+            }
+            break;
+        case PRERUNNING:
         case RUNNING:
-            currentState = GameState.GAME_OVER;
+            onDefeat.call();
             break;
         }
     }
@@ -240,12 +255,13 @@ public class GameWorld {
                     currentState = GameState.MENU;
                     break;
                 default:
-                    currentState = GameState.RUNNING;
+                    currentState = GameState.PRERUNNING;
                     break;
                 }
             }
             break;
-            
+        case PRERUNNING:
+            currentState = GameState.RUNNING;
 	    case RUNNING:
 	        handleClickOnRunning(x, y);
 	        break;
@@ -270,7 +286,7 @@ public class GameWorld {
         if (button != null) {
             tuto = TutorialState.forMode(button.getMode());
             resetGame(rulesFactory.getNewRulesSet(button.getMode(), level));
-            currentState = GameState.RUNNING;
+            currentState = GameState.PRERUNNING;
         }
         
         // Level selection

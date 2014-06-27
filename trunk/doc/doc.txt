@@ -9,8 +9,12 @@ Build:
 / Define color range
 - Clean designs
     - Icon
-- Tutorials
-- Add pre-running state
+/ Tutorials
+/ Add pre-running state
+? Level 3 cannot set text to right color
 - Setup social medias
 
 
+
+Bugs:
+/ Back while playing does not save high score

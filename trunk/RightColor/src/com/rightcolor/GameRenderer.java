@@ -60,7 +60,7 @@ public class GameRenderer {
     private static final Color COLOR_TEXT_DEFAULT = Color.WHITE;
     private static final Color NAVIGATION_BUTTON_COLOR = Color.WHITE;
     private static final Color BUTTON_TEXT_COLOR = Color.valueOf("D2D2D2FF");
-    private static final Color COLOR_SCREEN_DIM = Color.valueOf("0000007F");
+    private static final Color COLOR_SCREEN_DIM = Color.valueOf("000000C0");
 
     private GameWorld world;
     private OrthographicCamera cam;
@@ -96,6 +96,7 @@ public class GameRenderer {
         case TUTORIAL:
             renderTutorial();
             break;
+        case PRERUNNING:
         case RUNNING:
             renderRunning();
             break;
@@ -114,7 +115,8 @@ public class GameRenderer {
         drawTitle();
 
         int buttonHeight = (int) (availableSpace * LEVEL_BUTTON_HEIGHT_FACTOR);
-        
+
+        AssetLoader.mainFont.setScale(TEXT_SCALE_NORMAL, -TEXT_SCALE_NORMAL);
         b = drawText("Level:", 0, false, availableSpace * LEVEL_POSITION_Y_FACTOR + buttonHeight/2, true);
         
         int buttonWidth = (int) (Utils.GAME_WIDTH - b.width - LEVEL_TEXT_MARGIN*3) / 4;
@@ -127,8 +129,8 @@ public class GameRenderer {
         for (int i = 0; i < 4; i++) {
             drawButton(world.getLevelButton(i+1), buttonTextures[i],
                     buttonLeft, (int) (availableSpace * LEVEL_POSITION_Y_FACTOR), buttonWidth, buttonHeight);
-//            batcher.draw(buttonTextures[i], buttonLeft, availableSpace * LEVEL_POSITION_Y_FACTOR, buttonWidth, buttonHeight);
-//            world.getLevelButton(i+1).update(buttonLeft, (int) (availableSpace * LEVEL_POSITION_Y_FACTOR), buttonWidth, buttonHeight);
+            
+            AssetLoader.mainFont.setScale(TEXT_SCALE_NORMAL, -TEXT_SCALE_NORMAL);
             drawText(""+(i+1), buttonLeft + buttonWidth/2, true,
                                   availableSpace * LEVEL_POSITION_Y_FACTOR + LEVEL_BUTTON_TEXT_PADDING, false);
             buttonLeft += buttonWidth + LEVEL_BUTTON_SPACING;
@@ -155,7 +157,6 @@ public class GameRenderer {
         AssetLoader.mainFont.setScale(TEXT_SCALE_COLOR_NAME, -TEXT_SCALE_COLOR_NAME);
         drawText(RulesSet.AVAILABLE_COLORS.get(world.getCurrentRules().getTargetColor()), world.getCurrentRules().getTextColor(),
                 Utils.GAME_WIDTH/2, true, COLOR_POSITION_Y, false);
-        AssetLoader.mainFont.setScale(TEXT_SCALE_NORMAL, -TEXT_SCALE_NORMAL);
     }
     
     private void renderTutorial() {
@@ -176,7 +177,7 @@ public class GameRenderer {
         
         
         TutorialContent content = new TutorialContentFactory().getTutorialContent(world.getCurrentTutorial());
-        content.drawTutorialContent(batcher);
+        content.drawTutorialContent(batcher, gameHeight);
     }
     
     private void renderGameOver() {
@@ -192,7 +193,7 @@ public class GameRenderer {
 //        drawText(text, Utils.GAME_WIDTH/2, true, gameHeight*BEST_SCORE_POSITION_Y_FACTOR, false, Utils.GAME_WIDTH);
 //        
         String text = "Best Score: " + world.getPreferences().getInteger(PreferenceKeysFactory.getPreferencesKey(Preference.SCORE, world.getCurrentRules()));
-        drawText(text, Utils.GAME_WIDTH/2, true, gameHeight*BEST_SCORE_POSITION_Y_FACTOR+20, true);
+        drawText(text, Utils.GAME_WIDTH/2, true, gameHeight*BEST_SCORE_POSITION_Y_FACTOR, true);
         
         AssetLoader.mainFont.setScale(TEXT_SCALE_NORMAL, -TEXT_SCALE_NORMAL);
 
@@ -218,7 +219,8 @@ public class GameRenderer {
     
     private void drawTitle() {
         AssetLoader.mainFont.setColor(Color.WHITE);
-        
+
+        AssetLoader.mainFont.setScale(TEXT_SCALE_NORMAL, -TEXT_SCALE_NORMAL);
         drawText("Pick the right", Utils.GAME_WIDTH/2, true, TITLE_POSITION, false);
 
         batcher.setColor(Color.WHITE);
@@ -256,6 +258,7 @@ public class GameRenderer {
 //            batcher.draw(AssetLoader.pixel, x, y, Utils.GAME_WIDTH/2, buttonHeight);
 //            button.update(x, y, Utils.GAME_WIDTH/2, buttonHeight);
             if (withText) {
+                AssetLoader.mainFont.setScale(TEXT_SCALE_NORMAL, -TEXT_SCALE_NORMAL);
                 drawText(button.getMode().getText(), BUTTON_TEXT_COLOR, x + Utils.GAME_WIDTH/4, true, y + buttonHeight/3, true);
                 
                 AssetLoader.mainFont.setScale(TEXT_SCALE_BEST_SCORES, -TEXT_SCALE_BEST_SCORES);
@@ -272,7 +275,6 @@ public class GameRenderer {
                         " " +
                         world.getPreferences().getInteger(keyLevel4);
                 drawText(text, BUTTON_TEXT_COLOR, x + Utils.GAME_WIDTH/4, true, y + buttonHeight*2/3, true);
-                AssetLoader.mainFont.setScale(TEXT_SCALE_NORMAL, -TEXT_SCALE_NORMAL);
             }
         }
         

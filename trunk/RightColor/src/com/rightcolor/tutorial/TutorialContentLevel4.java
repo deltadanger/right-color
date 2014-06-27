@@ -1,11 +1,9 @@
 package com.rightcolor.tutorial;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
-class TutorialContentLevel4 implements TutorialContent {
+class TutorialContentLevel4 extends TutorialContent {
 
     @Override
-    public void drawTutorialContent(SpriteBatch batcher) {
-        
+    protected String getTutorialText() {
+        return "At this level, the 4 available colors change after each validation and the color name is written in a different color.";
     }
 }
