@@ -18,6 +18,7 @@ Build:
 
 Bugs:
 / Back while playing does not save high score
+- Try again doesn't go through pre-running
 
 
 
