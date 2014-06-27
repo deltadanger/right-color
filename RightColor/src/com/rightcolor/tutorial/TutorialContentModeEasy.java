@@ -1,11 +1,9 @@
 package com.rightcolor.tutorial;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
-class TutorialContentModeEasy implements TutorialContent {
+class TutorialContentModeEasy extends TutorialContent {
 
     @Override
-    public void drawTutorialContent(SpriteBatch batcher) {
-        
+    protected String getTutorialText() {
+        return "You have 5 seconds for each validation.\n\nNo stress!\n\nTimer starts after first validation.";
     }
 }

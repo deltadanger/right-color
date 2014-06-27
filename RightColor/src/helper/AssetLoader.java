@@ -41,10 +41,10 @@ public class AssetLoader {
         Border: 048f12
         */
         
-        levelButton = new TextureRegion(texture, 38, 724, 450, 225);
+        levelButton = new TextureRegion(texture, 38, 724, 460, 235);
         levelButton.flip(false, true);
 
-        levelButtonActive = new TextureRegion(texture, 529, 724, 270, 140);
+        levelButtonActive = new TextureRegion(texture, 529, 724, 460, 235);
         levelButtonActive.flip(false, true);
 
         twitter = new TextureRegion(texture, 19, 151, 487, 480);
