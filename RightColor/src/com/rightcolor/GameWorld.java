@@ -8,6 +8,7 @@ import helper.PreferenceKeysFactory.Preference;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Color;
+import com.rightcolor.comunication.ConfirmParameter;
 import com.rightcolor.comunication.ISocialNetworkAPI;
 import com.rightcolor.gameobjects.ColorButton;
 import com.rightcolor.rules.RulesSet;
@@ -346,6 +347,8 @@ public class GameWorld {
     }
     
     private void handleClickOnGameOver(int x, int y) {
+        ISocialNetworkAPI api = null;
+        
         if (buttonMenu.isInside(x, y)) {
             this.currentState = GameState.MENU;
             
@@ -354,10 +357,33 @@ public class GameWorld {
             this.currentState = GameState.RUNNING;
             
         } else if (buttonTwitter.isInside(x, y)) {
-            // update status
+            api = twitter;
             
         } else if (buttonFacebook.isInside(x, y)) {
-            // update status
+            api = facebook;
+        }
+        
+        if (api != null) {
+            String status = "";
+            String url = "http://app.play.google.com";
+            String statusSuccess = "Your status has been successfully updated.";
+            String statusFailure = "Your status has not been updated.";
+
+            String confirmDialogTitle = "";
+            String confirmDialogMessage = "";
+            String confirmDialogButtonYes = "";
+            String confirmDialogButtonNo = "";
+            
+            api.updateStatus(status,
+                    url,
+                    statusSuccess,
+                    statusFailure,
+                    new ConfirmParameter(
+                            confirmDialogTitle,
+                            confirmDialogMessage,
+                            confirmDialogButtonYes,
+                            confirmDialogButtonNo)
+            );
         }
     }
     
