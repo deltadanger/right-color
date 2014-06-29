@@ -11,14 +11,14 @@ Build:
     - Icon
 / Tutorials
 / Add pre-running state
-? Level 3 cannot set text to right color
+X Level 3 cannot set text to right color
 - Setup social medias
 
 
 
 Bugs:
 / Back while playing does not save high score
-- Try again doesn't go through pre-running
+/ Try again doesn't go through pre-running
 
 
 

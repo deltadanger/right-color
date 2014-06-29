@@ -62,22 +62,11 @@ public class AssetLoader {
 
         mainFont = new BitmapFont(Gdx.files.internal("data/machinescript.fnt"));
         
-        
-        // Sounds
-
-//        music = Gdx.audio.newSound(Gdx.files.internal("data/gravity_down.wav"));
-        
-        // Animations
-        // TextureRegion[] anim = { anim1, anim2, anim3};
-        // animation = new Animation(0.06f, anim);
-        // animation.setPlayMode(Animation.LOOP_PINGPONG);
     }
     
     public static void dispose() {
         texture.dispose();
         mainFont.dispose();
-//        music.dispose();
-        // animation.dispose();
     }
 
 }
