@@ -38,8 +38,8 @@ public class GameRenderer {
     private static final float COLOR_POSITION_Y = 50;
     
     // Game Over screen positions
-    private static final float SCORE_POSITION_Y_FACTOR = 0.25f;
-    private static final float BEST_SCORE_POSITION_Y_FACTOR = 0.35f;
+    private static final float SCORE_POSITION_Y_FACTOR = 0.35f;
+    private static final float BEST_SCORE_POSITION_Y_FACTOR = 0.45f;
     private static final float SOCIAL_BUTTON_POSITION_Y_FACTOR = 0.6f;
     private static final int SOCIAL_BUTTON_SPACING = 15;
     private static final int SOCIAL_BUTTON_SIZE = 40;

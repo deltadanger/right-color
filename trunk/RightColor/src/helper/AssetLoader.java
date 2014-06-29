@@ -39,12 +39,16 @@ public class AssetLoader {
         1cbc2b
         d8ffdc
         Border: 048f12
+        
+        ccf8f9
+        1dbabc
+        Border: 0c8283
         */
         
-        levelButton = new TextureRegion(texture, 38, 724, 460, 235);
+        levelButton = new TextureRegion(texture, 31, 721, 460, 235);
         levelButton.flip(false, true);
 
-        levelButtonActive = new TextureRegion(texture, 529, 724, 460, 235);
+        levelButtonActive = new TextureRegion(texture, 533, 721, 460, 235);
         levelButtonActive.flip(false, true);
 
         twitter = new TextureRegion(texture, 19, 151, 487, 480);
