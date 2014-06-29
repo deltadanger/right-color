@@ -28,7 +28,6 @@ public class GameWorld {
     }
     
     public static enum TutorialState {
-//        LEVEL_1("Level1"),
         LEVEL_2("Level2"),
         LEVEL_3("Level3"),
         LEVEL_4("Level4"),
@@ -354,7 +353,7 @@ public class GameWorld {
             
         } else if (buttonAgain.isInside(x, y)) {
             resetGame(rulesFactory.getNewRulesSet(currentRules.getGameMode(), level));
-            this.currentState = GameState.RUNNING;
+            this.currentState = GameState.PRERUNNING;
             
         } else if (buttonTwitter.isInside(x, y)) {
             api = twitter;

@@ -17,7 +17,7 @@ public interface RulesSet extends RulesSetFromLevel, RulesSetFromMode {
         this.put(Color.valueOf("D967E0FF"), "Pink");
         this.put(Color.valueOf("495BE3FF"), "Blue");
         this.put(Color.valueOf("38D047FF"), "Green");
-        this.put(Color.valueOf("E6E32EFF"), "Yellow");
+        this.put(Color.valueOf("ECEA64FF"), "Yellow");
         this.put(Color.valueOf("EFEFEFFF"), "White");
         this.put(Color.valueOf("645209FF"), "Brown");
         this.put(Color.valueOf("F1973FFF"), "Orange");
