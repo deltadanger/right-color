@@ -7,17 +7,27 @@ Build:
 / Game Over screen
 / Implement last mode
 / Define color range
-- Clean designs
-    - Icon
+/ Clean designs
+    / Icon
 / Tutorials
 / Add pre-running state
 X Level 3 cannot set text to right color
 - Setup social medias
     - Google Games
         - Achievements:
-            - Quick analysis (score equivalent of <1s for every mode, every level)
-            - Waste of Time (Score more than 100 in EasyPeasy, any difficulty)
-            - Huge Waste of Time (Score more than 1000 in EasyPeasy, any difficulty)
+            - Waste of Time (more than 100 in EasyPeasy, any difficulty)
+            - Huge Waste of Time (more than 1000 in EasyPeasy, any difficulty)
+            - Good concentration (more than 100 on Marathon)
+            - Awesome concentration (more than 1000 on Marathon)
+            - Fast analysis (more than 30 on Sprint)
+            - Super fast analysis (more than 40 on Sprint)
+            - Mind acceleration (more than 15 on Faster)
+            - Great mind acceleration (more than 20 on Faster)
+            - Hyper brain (score equivalent of <1s for every mode, every level)
+            - Giga brain (score equivalent of <0.5s for every mode, every level)
+            
+        https://developers.google.com/games/services/checklist
+        
     - Twitter
     - Facebook
 
@@ -29,5 +39,3 @@ Bugs:
 
 
 
-
-https://developers.google.com/games/services/checklist
