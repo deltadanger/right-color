@@ -8,7 +8,6 @@ import helper.PreferenceKeysFactory.Preference;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Color;
-import com.rightcolor.comunication.ConfirmParameter;
 import com.rightcolor.comunication.ISocialNetworkAPI;
 import com.rightcolor.gameobjects.ColorButton;
 import com.rightcolor.rules.RulesSet;
@@ -112,18 +111,9 @@ public class GameWorld {
     	this.twitter = twitter;
     	
         initialisePreferences();
-        dev();
         
         currentState = GameState.MENU;
         rulesFactory.assignInitialColorToButtons(topLeft, topRight, bottomLeft, bottomRight);
-    }
-    
-    private void dev() {
-        // TODO: remove this
-        for (TutorialState state : TutorialState.values()) {
-            String key = PreferenceKeysFactory.getPreferencesKey(state);
-            preferences.remove(key);
-        }
     }
     
     private void initialisePreferences() {
@@ -363,26 +353,10 @@ public class GameWorld {
         }
         
         if (api != null) {
-            String status = "";
-            String url = "http://app.play.google.com";
-            String statusSuccess = "Your status has been successfully updated.";
-            String statusFailure = "Your status has not been updated.";
-
-            String confirmDialogTitle = "";
-            String confirmDialogMessage = "";
-            String confirmDialogButtonYes = "";
-            String confirmDialogButtonNo = "";
+            String status = "I scored " + getPreferences().getInteger(PreferenceKeysFactory.getPreferencesKey(Preference.SCORE, currentRules)) + 
+            		" at RightColor, in mode " + currentRules.getGameMode().text + " " + currentRules.getLevelName() + ". Can you beat that?";
             
-            api.updateStatus(status,
-                    url,
-                    statusSuccess,
-                    statusFailure,
-                    new ConfirmParameter(
-                            confirmDialogTitle,
-                            confirmDialogMessage,
-                            confirmDialogButtonYes,
-                            confirmDialogButtonNo)
-            );
+            api.updateStatus(status);
         }
     }
     

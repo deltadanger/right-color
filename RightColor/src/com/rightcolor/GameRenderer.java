@@ -186,12 +186,7 @@ public class GameRenderer {
         AssetLoader.mainFont.setScale(TEXT_SCALE_FINAL_SCORE, -TEXT_SCALE_FINAL_SCORE);
 
         drawText("Score: "+world.getCurrentRules().getScore(), Utils.GAME_WIDTH/2, true, gameHeight*SCORE_POSITION_Y_FACTOR, true);
-//        String text = "Best Score\n(" + world.getCurrentRules().getGameMode().getText() +
-//                ", " + world.getCurrentRules().getLevelName() +
-//                "):\n" + world.getPreferences().getInteger(PreferenceKeysFactory.getPreferencesKey(Preference.SCORE, world.getCurrentRules()));
-//        
-//        drawText(text, Utils.GAME_WIDTH/2, true, gameHeight*BEST_SCORE_POSITION_Y_FACTOR, false, Utils.GAME_WIDTH);
-//        
+        
         String text = "Best Score: " + world.getPreferences().getInteger(PreferenceKeysFactory.getPreferencesKey(Preference.SCORE, world.getCurrentRules()));
         drawText(text, Utils.GAME_WIDTH/2, true, gameHeight*BEST_SCORE_POSITION_Y_FACTOR, true);
         

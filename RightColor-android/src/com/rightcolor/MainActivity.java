@@ -1,8 +1,10 @@
 package com.rightcolor;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -18,7 +20,8 @@ import com.google.android.gms.ads.AdView;
 public class MainActivity extends AndroidApplication {
     public static final int BACKGROUND_COLOR = Color.BLACK;
     
-    @Override
+	@SuppressLint("NewApi")
+	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
@@ -41,7 +44,7 @@ public class MainActivity extends AndroidApplication {
         layout.addView(gameView, gameViewParams);
 
         AdView adView = new AdView(this);
-        adView.setAdUnitId("");
+        adView.setAdUnitId("ca-app-pub-3293663299631285/8227381454");
         adView.setAdSize(AdSize.BANNER);
         
         RelativeLayout.LayoutParams adParams = 
@@ -56,6 +59,11 @@ public class MainActivity extends AndroidApplication {
         adView.loadAd(adRequest);
         
         setContentView(layout);
+        
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
     }
     
     @Override
