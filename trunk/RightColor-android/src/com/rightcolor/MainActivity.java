@@ -1,10 +1,19 @@
 package com.rightcolor;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.Signature;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -44,7 +53,8 @@ public class MainActivity extends AndroidApplication {
         layout.addView(gameView, gameViewParams);
 
         AdView adView = new AdView(this);
-        adView.setAdUnitId("ca-app-pub-3293663299631285/8227381454");
+//      adView.setAdUnitId("ca-app-pub-3293663299631285/8227381454");
+        adView.setAdUnitId("");
         adView.setAdSize(AdSize.BANNER);
         
         RelativeLayout.LayoutParams adParams = 
@@ -63,6 +73,21 @@ public class MainActivity extends AndroidApplication {
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
+        }
+        
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "com.rightcolor", 
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (NameNotFoundException e) {
+
+        } catch (NoSuchAlgorithmException e) {
+
         }
     }
     

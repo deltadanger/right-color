@@ -121,8 +121,8 @@ public class GameRenderer {
         
         int buttonWidth = (int) (Utils.GAME_WIDTH - b.width - LEVEL_TEXT_MARGIN*3) / 4;
         
-        TextureRegion[] buttonTextures = {AssetLoader.levelButton, AssetLoader.levelButton, AssetLoader.levelButton, AssetLoader.levelButton};
-        buttonTextures[world.getLevel()-1] = AssetLoader.levelButtonActive;
+        TextureRegion[] buttonTextures = {AssetLoader.button, AssetLoader.button, AssetLoader.button, AssetLoader.button};
+        buttonTextures[world.getLevel()-1] = AssetLoader.buttonActive;
         int buttonLeft = (int) (b.width + LEVEL_TEXT_MARGIN);
         
         batcher.setColor(Color.WHITE);
@@ -201,12 +201,12 @@ public class GameRenderer {
                 Utils.GAME_WIDTH/2 + SOCIAL_BUTTON_SPACING/2, gameHeight*SOCIAL_BUTTON_POSITION_Y_FACTOR,
                 SOCIAL_BUTTON_SIZE, SOCIAL_BUTTON_SIZE);
         
-        drawButton(world.getButtonMenu(), AssetLoader.levelButton,
+        drawButton(world.getButtonMenu(), AssetLoader.button,
                 0, gameHeight - NAVIGATION_BUTTON_HEIGHT, Utils.GAME_WIDTH/2, NAVIGATION_BUTTON_HEIGHT);
         drawText("Back to menu", NAVIGATION_BUTTON_COLOR,
                 Utils.GAME_WIDTH/4, true, gameHeight-NAVIGATION_BUTTON_HEIGHT/2, true);
         
-        drawButton(world.getButtonAgain(), AssetLoader.levelButton,
+        drawButton(world.getButtonAgain(), AssetLoader.button,
                 Utils.GAME_WIDTH/2, gameHeight - NAVIGATION_BUTTON_HEIGHT, Utils.GAME_WIDTH/2, NAVIGATION_BUTTON_HEIGHT);
         drawText("Try again !", NAVIGATION_BUTTON_COLOR,
                 Utils.GAME_WIDTH/2 + Utils.GAME_WIDTH/4, true, gameHeight-NAVIGATION_BUTTON_HEIGHT/2, true);
