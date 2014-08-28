@@ -29,7 +29,8 @@ X Level 3 cannot set text to right color
         https://developers.google.com/games/services/checklist
         
     / Twitter
-    / Facebook
+    - Facebook
+        Add link or make facebook app work?
 / Improve font quality
 
 

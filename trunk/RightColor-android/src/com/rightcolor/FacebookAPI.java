@@ -112,7 +112,7 @@ public class FacebookAPI implements ISocialNetworkAPI {
     private void doUpdateStatus(Session session, final String success) {
 
         Log.d("test", "update status");
-        Request.newStatusUpdateRequest(session, status, new Request.Callback() {
+        Request.newStatusUpdateRequest(session, status + " " + STATUS_UPDATE_URL, new Request.Callback() {
             
             @Override
             public void onCompleted(Response response) {
