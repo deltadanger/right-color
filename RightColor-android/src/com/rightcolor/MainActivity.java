@@ -53,8 +53,7 @@ public class MainActivity extends AndroidApplication {
         layout.addView(gameView, gameViewParams);
 
         AdView adView = new AdView(this);
-//      adView.setAdUnitId("ca-app-pub-3293663299631285/8227381454");
-        adView.setAdUnitId("");
+        adView.setAdUnitId("ca-app-pub-3293663299631285/8227381454");
         adView.setAdSize(AdSize.BANNER);
         
         RelativeLayout.LayoutParams adParams = 
